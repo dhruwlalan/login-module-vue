@@ -1,0 +1,85 @@
+@use "../../abstracts" as *;
+@use "../../abstracts/placeholder" as *;
+
+.form__body {
+	@include flex-item( $grow: 1 , );
+	@include pbm( $p: 2rem , );
+}
+.form__forget-password {
+	@include typo( $c: $sec-blue , $ff: $roboto , $fs: 1.6rem , $fw: 300 , $td: none , );
+	@extend %disable-selection;
+	@extend %cur-out;
+	&:hover, &:focus { border-bottom: 2px solid $sec-foc-blue; }
+}
+.form__group {
+	@include size( $h: 5rem , $w: 100% , );
+	@include pbm( $rad: 1rem , $b: 1px solid $pri-gray , );
+	@include pos-relative();
+	&:not(:last-child) { margin-bottom: 2.5rem; }
+	
+	&-input {
+		@include size( $h: 5rem , $w: 100% , );
+		@include bg( $c: inherit , );
+		@include typo( $c: $pri-blue , $ff: $roboto , $fs: 2rem , $fw: 400 , );
+		@include pbm( $b: none , $p: 1rem 1.5rem , );
+		outline: none;
+		caret-color: $pri-gray;
+
+		&#passInput { @include size( $w: 90% , ); }
+	}
+
+	&-label {
+		@include typo( $c: $pri-gray , $ff: $roboto , $fs: 1.2rem , $fw: 400 , );
+		@extend %white-bgc;
+		@include pbm( $p: 0rem 5px , $rad: 50px , );
+		@include pos-absolute( $l: 1.5rem , $t: 0px , $z: 10 , );
+		transform: translateY( -9px );
+		@extend %disable-selection;
+
+		@media (max-width: 550px) {
+			transform: translateY( -7px );
+		}
+	}
+
+	&__profile {
+		@include size( $h: 12.5rem , $w: 100% , );
+		@include pbm( $mb: 2.5rem , );
+		@extend %flex-center;
+		@extend %disable-selection;
+
+		&--input { display: none; }
+		&--preview {
+			@include size( $h: 12.5rem , $w: 12.5rem , );
+			@include pbm( $mr: 2rem , $b: 2px solid $foc-blue , $rad: 50% , );
+			object-fit: cover;
+		}
+		&--links {
+			@include size( $h: 70% , );
+			@include flex( $fd: column , $jc: space-between , $ai: start , );
+			@extend %disable-selection;
+
+			@media (max-width: 450px) {
+				justify-content: space-evenly;
+			}
+		}
+		&--select , &--remove {
+			@include size( $h: 4rem , );
+			@include typo( $c: $pri-blue , $ff: $roboto , $fs: 2rem , $fw: 300 , );
+			@include flex( $jc: start , $ai: center , );
+			@include pos-relative();
+			@extend %cur-out;
+
+			@media (max-width: 450px) {
+				height: 3rem;
+				font-size: 18px;
+			}
+
+			&:hover { &::after {
+				content: '';
+				@include size( $h: 2px , $w: 100% , );
+				@include bg( $c: $foc-blue , );
+				@include pos-absolute( $b: 8px );
+			}}
+		}
+	}
+}

@@ -1,0 +1,30 @@
+// BASE
+@use "base/base";
+@use "base/reset";
+// COMPONENTS
+@use "components/alerts";
+@use "components/spinner";
+@use "components/pipes";
+// COMPONENTS/FORMS
+@use "components/forms/form";
+@use "components/forms/form-header";
+@use "components/forms/form-body";
+@use "components/forms/form-footer";
+@use "components/forms/form-btns";
+@use "components/forms/form-utils";
+// LAYOUT
+@use "layout/container";
+@use "layout/section";
+@use "layout/navbar";
+@use "layout/home";
+@use "layout/loginSignup";
+@use "layout/pageNotFound";
+
+#app {
+   font-family: Avenir, Helvetica, Arial, sans-serif;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   text-align: center;
+   color: #2c3e50;
+   margin-top: 60px;
+}

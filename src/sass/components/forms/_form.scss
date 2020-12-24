@@ -1,0 +1,37 @@
+@use "../../abstracts" as *;
+@use "../../abstracts/placeholder" as *;
+
+.form {
+	@include size( $h: 50rem , $maxw: 40rem , );
+	@include flex( $fd: column , );
+	@include pos-relative();
+	overflow: hidden;
+
+	&--login , &--signup , &--forget-password , &--reset-password {
+		@extend %white-bgc;
+		@include pbm( $rad: 1rem , $m: 0 auto , $mt: 10rem , );
+		box-shadow: 0 0 6rem 1rem rgb(0 0 0 / 25%);
+
+		@media (max-width: 450px) {
+			@include size( $h: 125vw , );
+			@include pbm( $mt: 0 , );
+		}
+	}
+	&--forget-password , &--reset-password { 
+		@include size( $h: fit-content , ); 
+	}
+	&--edit--data , &--edit--profile , &--edit--pass {
+		@include size( $h: auto , $maxw: 40rem , );
+		@include pbm( $m: 0 auto , );
+	}
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+	-webkit-text-fill-color: $pri-blue;
+	transition: background-color 10000000s ease-in-out 0s;
+	&::first-line {
+		 @include typo( $c: $pri-blue , $ff: $roboto , $fs: 2rem , $fw: 400 , );	
+	}
+}

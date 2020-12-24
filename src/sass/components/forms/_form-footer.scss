@@ -1,0 +1,29 @@
+@use "../../abstracts" as *;
+@use "../../abstracts/placeholder" as *;
+
+.form__footer {
+	@include typo( $c: $white , $ff: $roboto , $fs: 1.5rem , $fw: 300 , $ta: center , );
+	@include pbm( $mb: 1.5rem , );
+	@extend %disable-selection;
+	z-index: 10;
+
+	&--link {
+		@include typo( $c: $pri-green , $ff: $roboto , $fs: 1.5rem , $fw: 600 , $td: none , );
+		@include pos-relative();
+		@extend %cur-out;
+
+		&:hover::after , &:focus::after {
+			content: '';
+			@include size( $h: 2px , $w: 100% , );
+			@include pos-absolute( $b: 0 , $l: 0 , $z: -1 , );
+			border-bottom: 2px solid $foc-green;
+		}
+		&:focus { outline: none; }
+	}
+
+	&--svg {
+		@include pbm( $rad: 0 0 1rem 1rem , );
+		@include pos-absolute( $b: 0 , $l: 0 , );
+		fill: $pri-blue;
+	}
+}

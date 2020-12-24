@@ -1,0 +1,22 @@
+@use "../abstracts" as *;
+@use "../abstracts/placeholder" as *;
+
+.pnf {
+	@include bg( $c: #f8d7da , );
+	@include pbm( $p: 4rem , $rad: 1rem , $mt: 5rem , );
+
+	@media (max-width: 550px) {
+		@include pbm( $mt: 0rem , );
+	}
+
+	&__heading {
+		@include typo( $c: #721c24 , $ff: $roboto , $fs: 3rem , $fw: 300 , $ta: center , );
+		&:not(:last-child) {
+			@include pbm( $mb: 2rem , );
+		}
+	}
+
+	&__errcode {
+		font-weight: 400;
+	}
+}

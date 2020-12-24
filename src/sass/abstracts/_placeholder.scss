@@ -1,0 +1,18 @@
+@use "../abstracts" as *;
+
+%disable-selection {
+	@include disable-selection;
+}
+%white-bgc {
+	@include bg( $c: $background , );
+}
+%blue-bgc {
+	@include bg( $c: $pri-blue , );
+}
+%flex-center {
+	@include flex( $jc: center , $ai: center , );
+}
+%cur-out {
+	outline: none;
+	cursor: pointer;
+}
