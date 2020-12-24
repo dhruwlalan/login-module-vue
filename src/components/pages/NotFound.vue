@@ -1,8 +1,9 @@
 <template>
-   <div class="comp">
-      <h2>{{ $route.fullPath }}</h2>
-      <h1>404 Page not found!</h1>
-      <button @click="$router.push('/')">Go Home</button>
+   <div class="container">
+      <div class="pnf">
+         <h1 class="pnf__heading">Opps! <span class="pnf__errcode">404</span></h1>
+         <h1 class="pnf__heading">The page you are looking for could not be found!</h1>
+      </div>
    </div>
 </template>
 
@@ -11,25 +12,3 @@ export default {
    props: ['notFound'],
 };
 </script>
-
-<style scoped>
-h2 {
-   color: white;
-}
-button {
-   outline: none;
-   border: none;
-   height: 2rem;
-   width: 8rem;
-   margin-top: 2rem;
-   background-color: lavender;
-   box-shadow: 0 0 12px rgb(0 0 0 / 30%);
-   color: teal;
-   border-radius: 1rem;
-   cursor: pointer;
-   margin-right: 2rem;
-}
-button:active {
-   box-shadow: none;
-}
-</style>
