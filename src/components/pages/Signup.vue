@@ -6,6 +6,7 @@
       </div>
       <div class="form__body">
          <form-group type="fullName" @info="fullNameInfo" />
+         <form-group type="email" @info="emailInfo" />
          <!-- <form-group type="email" @info="emailInfo" /> -->
          <!-- <form-group type="pass" @info="passInfo" /> -->
          <!-- <div class="form__group form__group--email">
@@ -52,6 +53,9 @@ export default {
    methods: {
       fullNameInfo(info) {
          this.fullName = info;
+      },
+      emailInfo(info) {
+         this.email = info;
       },
       submit() {
          // this.$store.dispatch('register', {
