@@ -15,7 +15,7 @@
             >
          </div>
          <button class="btn btn__forget-password" id="submit" type="submit">
-            <spann class="btn__forget-password--text">Send Reset Link</spann>
+            <span class="btn__forget-password--text">Send Reset Link</span>
          </button>
       </div>
    </form>

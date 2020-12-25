@@ -1,6 +1,14 @@
 export default {
-   state() {},
+   state() {
+      return {
+         userId: 1000,
+      };
+   },
    mutations: {},
-   getters: {},
+   getters: {
+      userId(store) {
+         return store.userId;
+      },
+   },
    actions: {},
 };

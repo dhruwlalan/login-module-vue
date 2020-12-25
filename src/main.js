@@ -11,12 +11,12 @@ import './sass/main.scss';
 const router = createRouter(Router);
 const store = createStore(Store);
 
-let app;
-auth.onAuthStateChanged(() => {
-   if (!app) {
-      app = createApp(App);
-      app.use(router);
-      app.use(store);
-      app.mount('#app');
-   }
-});
+// let app;
+// auth.onAuthStateChanged(() => {
+//    if (!app) {
+const app = createApp(App);
+app.use(router);
+app.use(store);
+app.mount('#app');
+//    }
+// });
