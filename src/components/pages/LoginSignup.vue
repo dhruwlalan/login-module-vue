@@ -1,5 +1,5 @@
 <template>
-   <div class="ls">
+   <div class="ls" v-if="!user">
       <div class="ls__heading">Welcome!</div>
       <div class="ls__desc">
          This is just a simple Login and Sign Up module. Login to your account or Sign-Up if you
@@ -10,4 +10,24 @@
          <router-link :to="{ name: 'signup' }" class="ls__links--link">Sign Up</router-link>
       </div>
    </div>
+   <div class="ls" v-else>
+      <h4>uid: {{ user.uid }}</h4>
+      <h4>email: {{ user.email }}</h4>
+      <button @click="logout">logout</button>
+   </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+   computed: {
+      ...mapGetters(['user']),
+   },
+   methods: {
+      logout() {
+         this.$store.dispatch('logout');
+      },
+   },
+};
+</script>
