@@ -9,19 +9,19 @@
 
 <script>
 export default {
-   props: ['status'],
+   props: ['btnStatus'],
    computed: {
       notSubmited() {
-         return this.status === 'not-submited';
+         return this.btnStatus === 'not-submited';
       },
       spinner() {
-         return this.status === 'submited';
+         return this.btnStatus === 'submited';
       },
       success() {
-         return this.status === 'success';
+         return this.btnStatus === 'success';
       },
       error() {
-         return this.status === 'error';
+         return this.btnStatus === 'error';
       },
    },
 };

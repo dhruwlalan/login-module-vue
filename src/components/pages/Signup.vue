@@ -5,20 +5,19 @@
          <h3 class="form__header--title">Sign Up</h3>
       </div>
       <div class="form__body">
-         <div class="form__group form__group--name">
-            <input class="form__group-input" id="nameInput" type="text" v-model="fullName" />
-            <label class="form__group-label" id="nameLabel" for="nameInput">Full Name</label>
-         </div>
-         <div class="form__group form__group--email">
+         <form-group type="fullName" @info="fullNameInfo" />
+         <!-- <form-group type="email" @info="emailInfo" /> -->
+         <!-- <form-group type="pass" @info="passInfo" /> -->
+         <!-- <div class="form__group form__group--email">
             <input class="form__group-input" id="emailInput" type="email" v-model="email" />
             <label class="form__group-label" id="emailLabel" for="emailInput"> Email </label>
-         </div>
-         <div class="form__group form__group--pass">
+         </div> -->
+         <!-- <div class="form__group form__group--pass">
             <input class="form__group-input" id="passInput" type="password" v-model="password" />
             <label class="form__group-label" id="passLabel" for="passInput"> Password </label>
             <img class="eye-svg" id="eyeSvgForPass" src="assets/svg/passShow.svg" />
-         </div>
-         <submit-btn :status="status" @click.prevent="submit">Creat Account</submit-btn>
+         </div> -->
+         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Creat Account</submit-btn>
       </div>
       <div class="form__footer">
          <span>I'm already a member,</span>
@@ -29,38 +28,47 @@
 </template>
 
 <script>
+import axios from 'axios';
 import BackLink from '../utils/BackLink.vue';
 import WaveSvg from '../utils/WaveSvg.vue';
 import SubmitBtn from '../utils/SubmitBtn.vue';
+import FormGroup from '../utils/FormGroup.vue';
 
 export default {
    components: {
       BackLink,
       WaveSvg,
       SubmitBtn,
+      FormGroup,
    },
    data() {
       return {
          fullName: '',
          email: '',
          password: '',
-         status: 'not-submited',
+         btnStatus: 'not-submited',
       };
    },
    methods: {
+      fullNameInfo(info) {
+         this.fullName = info;
+      },
       submit() {
          // this.$store.dispatch('register', {
          //    email: this.email,
          //    password: this.password,
          // });
-         this.status = 'submited';
-         setTimeout(() => {
-            this.status = 'success';
-            this.showAlert('success', 'hahah');
-            setTimeout(() => {
-               this.status = 'not-submited';
-            }, 1000);
-         }, 2000);
+         console.log(this.fullName);
+         console.log(this.email);
+         console.log(this.password);
+         // this.status = 'submited';
+         // setTimeout(() => {
+         //    this.status = 'success';
+         //    this.showAlert('success', 'hahah');
+         //    setTimeout(() => {
+         //       this.status = 'not-submited';
+         //    }, 1000);
+         // }, 2000);
       },
       showAlert(type, msg) {
          this.$store.dispatch('alert', { type, msg });
