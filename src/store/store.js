@@ -10,8 +10,8 @@ export default {
       };
    },
    mutations: {
-      storeUser(state) {
-         state.user = auth.currentUser;
+      storeUser(state, payload) {
+         state.user = payload;
       },
       showAlert(state, payload) {
          state.alert = true;
@@ -35,18 +35,17 @@ export default {
       },
    },
    actions: {
-      async register(context, { email, password }) {
+      async register(context, { fullName, email, password }) {
          try {
             const { user } = await auth.createUserWithEmailAndPassword(email, password);
             await db.collection('users').doc(user.uid).set({
-               fullName: user.fullName,
+               fullName,
                email: user.email,
             });
-            context.commit('storeUser');
-            console.log('user created successfully!');
+            context.commit('storeUser', { fullName, email, uid: user.uid });
+            return 'success';
          } catch (error) {
-            console.log('errorCode:', error.code);
-            console.log('errorMessage:', error.message);
+            return error.message;
          }
       },
       login(context, { email, password }) {
@@ -61,19 +60,18 @@ export default {
                console.log('errorMessage:', error.message);
             });
       },
-      logout(context) {
-         auth.signOut().then(() => {
-            context.commit('storeUser');
-         });
+      async logout(context) {
+         await auth.signOut();
+         context.commit('storeUser', null);
       },
-      alert(context, { type, msg }) {
+      showAlert(context, { type, msg }) {
          context.commit('showAlert', {
             type,
             msg,
          });
          setTimeout(() => {
             context.commit('hideAlert');
-         }, 1000);
+         }, 1500);
       },
    },
 };

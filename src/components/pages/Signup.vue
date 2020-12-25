@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import BackLink from '../utils/BackLink.vue';
 import WaveSvg from '../utils/WaveSvg.vue';
 import SubmitBtn from '../utils/SubmitBtn.vue';
@@ -51,24 +50,43 @@ export default {
          this.password = info;
       },
       submit() {
-         // this.$store.dispatch('register', {
-         //    email: this.email,
-         //    password: this.password,
-         // });
-         console.log(this.fullName);
-         console.log(this.email);
-         console.log(this.password);
-         // this.status = 'submited';
-         // setTimeout(() => {
-         //    this.status = 'success';
-         //    this.showAlert('success', 'hahah');
-         //    setTimeout(() => {
-         //       this.status = 'not-submited';
-         //    }, 1000);
-         // }, 2000);
+         if (this.fullName.status === 'notEntered') {
+            this.showAlert('error', 'Please enter your full name.');
+         } else if (this.email.status === 'notEntered') {
+            this.showAlert('error', 'Please enter your email address.');
+         } else if (this.email.status === 'EnteredButInvalid') {
+            this.showAlert('error', 'Please enter a valid email address.');
+         } else if (this.password.status === 'notEntered') {
+            this.showAlert('error', 'Please enter your password.');
+         } else if (this.password.status === 'EnteredButInvalid') {
+            this.showAlert('error', 'Password should be at least 8 characters long.');
+         } else {
+            this.btnStatus = 'submited';
+            this.$store
+               .dispatch('register', {
+                  fullName: this.fullName.fullName,
+                  email: this.email.email,
+                  password: this.password.pass,
+               })
+               .then((res) => {
+                  if (res === 'success') {
+                     this.btnStatus = 'success';
+                     this.showAlert('success', 'User Created Successfully!');
+                     setTimeout(() => {
+                        this.$router.push({ name: 'home' });
+                     }, 1500);
+                  } else {
+                     this.btnStatus = 'error';
+                     this.showAlert('error', res);
+                     setTimeout(() => {
+                        this.btnStatus = 'not-submited';
+                     }, 1500);
+                  }
+               });
+         }
       },
       showAlert(type, msg) {
-         this.$store.dispatch('alert', { type, msg });
+         this.$store.dispatch('showAlert', { type, msg });
       },
    },
 };
