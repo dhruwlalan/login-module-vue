@@ -1,7 +1,7 @@
 <template>
    <form-input-name v-if="type === 'fullName'" @info="emitInfo"></form-input-name>
-   <form-input-email v-if="type === 'email'" @info="emitInfo"></form-input-email>
-   <!-- <form-input-pass v-if="type === 'pass'" @info="emitInfo"></form-input-pass> -->
+   <form-input-email v-else-if="type === 'email'" @info="emitInfo"></form-input-email>
+   <form-input-pass v-else-if="type === 'pass'" @info="emitInfo"></form-input-pass>
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
    components: {
       FormInputName,
       FormInputEmail,
-      // FormInputPass,
+      FormInputPass,
    },
    props: ['type'],
    emits: ['info'],

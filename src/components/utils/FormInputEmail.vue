@@ -35,8 +35,7 @@ export default {
    data() {
       return {
          email: '',
-         status: '',
-         msg: '',
+         status: 'notEntered',
          shouldHover: false,
          shouldFocus: false,
       };
@@ -91,6 +90,11 @@ export default {
                border: '1px solid #002fff',
             };
          }
+         if (this.status === 'EnteredButInvalid') {
+            return {
+               border: '1px solid tomato',
+            };
+         }
          return null;
       },
       labelStyle() {
@@ -99,8 +103,19 @@ export default {
                color: '#002fff',
             };
          }
+         if (this.status === 'EnteredButInvalid') {
+            return {
+               color: 'tomato',
+            };
+         }
          return null;
       },
+   },
+   created() {
+      this.$emit('info', {
+         email: this.email,
+         status: this.status,
+      });
    },
 };
 </script>

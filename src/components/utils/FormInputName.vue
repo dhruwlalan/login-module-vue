@@ -35,8 +35,7 @@ export default {
    data() {
       return {
          fullName: '',
-         status: '',
-         msg: '',
+         status: 'notEntered',
          shouldHover: false,
          shouldFocus: false,
       };
@@ -99,6 +98,12 @@ export default {
          }
          return null;
       },
+   },
+   created() {
+      this.$emit('info', {
+         fullName: this.fullName,
+         status: this.status,
+      });
    },
 };
 </script>

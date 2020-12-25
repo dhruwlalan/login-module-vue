@@ -7,17 +7,7 @@
       <div class="form__body">
          <form-group type="fullName" @info="fullNameInfo" />
          <form-group type="email" @info="emailInfo" />
-         <!-- <form-group type="email" @info="emailInfo" /> -->
-         <!-- <form-group type="pass" @info="passInfo" /> -->
-         <!-- <div class="form__group form__group--email">
-            <input class="form__group-input" id="emailInput" type="email" v-model="email" />
-            <label class="form__group-label" id="emailLabel" for="emailInput"> Email </label>
-         </div> -->
-         <!-- <div class="form__group form__group--pass">
-            <input class="form__group-input" id="passInput" type="password" v-model="password" />
-            <label class="form__group-label" id="passLabel" for="passInput"> Password </label>
-            <img class="eye-svg" id="eyeSvgForPass" src="assets/svg/passShow.svg" />
-         </div> -->
+         <form-group type="pass" @info="passInfo" />
          <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Creat Account</submit-btn>
       </div>
       <div class="form__footer">
@@ -56,6 +46,9 @@ export default {
       },
       emailInfo(info) {
          this.email = info;
+      },
+      passInfo(info) {
+         this.password = info;
       },
       submit() {
          // this.$store.dispatch('register', {
