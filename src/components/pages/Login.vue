@@ -5,20 +5,11 @@
          <h3 class="form__header--title">Login</h3>
       </div>
       <div class="form__body">
-         <div class="form__group form__group--email">
-            <input class="form__group-input" id="emailInput" type="email" v-model="email" />
-            <label class="form__group-label" id="emailLabel" for="emailInput">Email</label>
-         </div>
-         <div class="form__group form__group--pass">
-            <input class="form__group-input" id="passInput" type="password" v-model="password" />
-            <label class="form__group-label" id="passLabel" for="passInput">Password</label
-            ><img class="eye-svg" id="eyeSvgForPass" src="assets/svg/passShow.svg" />
-         </div>
-         <button class="btn btn__login" id="submit" type="submit" @click.prevent="submit">
-            <span class="btn__login--text">Login</span>
-         </button>
-         <router-link :to="{ name: 'forgetPassword' }" class="form__forget-password"
-            >Forget your password?
+         <form-group type="email" @info="emailInfo" />
+         <form-group type="pass" @info="passInfo" />
+         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Creat Account</submit-btn>
+         <router-link :to="{ name: 'forgetPassword' }" class="form__forget-password">
+            Forget your password?
          </router-link>
       </div>
       <div class="form__footer">
@@ -32,24 +23,65 @@
 <script>
 import BackLink from '../utils/BackLink.vue';
 import WaveSvg from '../utils/WaveSvg.vue';
+import SubmitBtn from '../utils/SubmitBtn.vue';
+import FormGroup from '../utils/FormGroup.vue';
 
 export default {
    components: {
       BackLink,
       WaveSvg,
+      SubmitBtn,
+      FormGroup,
    },
    data() {
       return {
          email: '',
          password: '',
+         btnStatus: 'not-submited',
       };
    },
    methods: {
+      emailInfo(info) {
+         this.email = info;
+      },
+      passInfo(info) {
+         this.password = info;
+      },
       submit() {
-         this.$store.dispatch('login', {
-            email: this.email,
-            password: this.password,
-         });
+         if (this.email.status === 'notEntered') {
+            this.showAlert('error', 'Please enter your email address.');
+         } else if (this.email.status === 'EnteredButInvalid') {
+            this.showAlert('error', 'Please enter a valid email address.');
+         } else if (this.password.status === 'notEntered') {
+            this.showAlert('error', 'Please enter your password.');
+         } else if (this.password.status === 'EnteredButInvalid') {
+            this.showAlert('error', 'Password should be at least 8 characters long.');
+         } else {
+            this.btnStatus = 'submited';
+            this.$store
+               .dispatch('login', {
+                  email: this.email.email,
+                  password: this.password.pass,
+               })
+               .then((res) => {
+                  if (res === 'success') {
+                     this.btnStatus = 'success';
+                     this.showAlert('success', 'User Logged In Successfully!');
+                     setTimeout(() => {
+                        this.$router.push({ name: 'home' });
+                     }, 1000);
+                  } else {
+                     this.btnStatus = 'error';
+                     this.showAlert('error', res);
+                     setTimeout(() => {
+                        this.btnStatus = 'not-submited';
+                     }, 1000);
+                  }
+               });
+         }
+      },
+      showAlert(type, msg) {
+         this.$store.dispatch('showAlert', { type, msg });
       },
    },
 };

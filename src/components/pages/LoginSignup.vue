@@ -12,7 +12,7 @@
    </div>
    <div class="ls" v-else>
       <h4>uid: {{ user.uid }}</h4>
-      <h4>uid: {{ user.fullName }}</h4>
+      <h4>fullName: {{ user.fullName }}</h4>
       <h4>email: {{ user.email }}</h4>
       <button @click="logout">logout</button>
    </div>

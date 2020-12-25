@@ -27,21 +27,25 @@ export default {
          name: 'login',
          path: '/login',
          component: Login,
+         meta: { isOpenRoute: true },
       },
       {
          name: 'signup',
          path: '/signup',
          component: Signup,
+         meta: { isOpenRoute: true },
       },
       {
          name: 'forgetPassword',
          path: '/forgetPassword',
          component: ForgetPassword,
+         meta: { isOpenRoute: true },
       },
       {
          name: 'resetPassword',
          path: '/resetPassword/:resetId',
          component: ResetPassword,
+         meta: { isOpenRoute: true },
       },
       {
          path: '/:notFound(.*)',

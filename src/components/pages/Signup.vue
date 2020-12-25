@@ -74,13 +74,13 @@ export default {
                      this.showAlert('success', 'User Created Successfully!');
                      setTimeout(() => {
                         this.$router.push({ name: 'home' });
-                     }, 1500);
+                     }, 1000);
                   } else {
                      this.btnStatus = 'error';
                      this.showAlert('error', res);
                      setTimeout(() => {
                         this.btnStatus = 'not-submited';
-                     }, 1500);
+                     }, 1000);
                   }
                });
          }

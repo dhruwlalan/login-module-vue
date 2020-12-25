@@ -42,27 +42,32 @@ export default {
                fullName,
                email: user.email,
             });
-            context.commit('storeUser', { fullName, email, uid: user.uid });
+            context.commit('storeUser', { fullName, email });
             return 'success';
          } catch (error) {
             return error.message;
          }
       },
-      login(context, { email, password }) {
-         auth
-            .signInWithEmailAndPassword(email, password)
-            .then((_res) => {
-               context.commit('storeUser');
-               console.log('user logged-in successfully!');
-            })
-            .catch((error) => {
-               console.log('errorCode:', error.code);
-               console.log('errorMessage:', error.message);
-            });
+      async login(context, { email, password }) {
+         try {
+            const { user } = await auth.signInWithEmailAndPassword(email, password);
+            context.dispatch('fetchUserProfil', user);
+            return 'success';
+         } catch (error) {
+            return error.message;
+         }
       },
       async logout(context) {
          await auth.signOut();
          context.commit('storeUser', null);
+      },
+      async fetchUserProfil(context, user) {
+         try {
+            const userProfile = await db.collection('users').doc(user.uid).get();
+            context.commit('storeUser', userProfile.data());
+         } catch (error) {
+            context.dispatch('showAlert', { type: 'error', msg: error });
+         }
       },
       showAlert(context, { type, msg }) {
          context.commit('showAlert', {
@@ -71,7 +76,7 @@ export default {
          });
          setTimeout(() => {
             context.commit('hideAlert');
-         }, 1500);
+         }, 1000);
       },
    },
 };
