@@ -6,7 +6,7 @@
          <h5 class="form__header--subtitle">Enter your email address to reset your password.</h5>
       </div>
       <div class="form__body">
-         <form-group type="email" @info="emailInfo" />
+         <fgi-email v-model="email" @status="getEmailStatus" />
          <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Login</submit-btn>
       </div>
    </form>
@@ -15,34 +15,35 @@
 <script>
 import BackLink from '../utils/BackLink.vue';
 import SubmitBtn from '../utils/SubmitBtn.vue';
-import FormGroup from '../utils/FormGroup.vue';
+import FgiEmail from '../utils/FgiEmail.vue';
 
 export default {
    components: {
       BackLink,
       SubmitBtn,
-      FormGroup,
+      FgiEmail,
    },
    data() {
       return {
          email: '',
+         emailStatus: '',
          btnStatus: 'not-submited',
       };
    },
    methods: {
-      emailInfo(info) {
-         this.email = info;
+      getEmailStatus(status) {
+         this.emailStatus = status;
       },
       submit() {
-         if (this.email.status === 'notEntered') {
+         if (this.emailStatus === 'notEntered') {
             this.showAlert('error', 'Please enter your email address.');
-         } else if (this.email.status === 'EnteredButInvalid') {
+         } else if (this.emailStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Please enter a valid email address.');
          } else {
             this.btnStatus = 'submited';
             this.$store
                .dispatch('forgetPassword', {
-                  email: this.email.email,
+                  email: this.email,
                })
                .then((res) => {
                   if (res === 'success') {

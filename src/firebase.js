@@ -4,12 +4,12 @@ import 'firebase/storage';
 
 ///Your web app's Firebase configuration///
 const firebaseConfig = {
-   apiKey: 'AIzaSyClqtNPTSSIJri840JDu4BS8NHzj_U6kpU',
-   authDomain: 'login-module-dl.firebaseapp.com',
-   projectId: 'login-module-dl',
-   storageBucket: 'login-module-dl.appspot.com',
-   messagingSenderId: '661000939370',
-   appId: '1:661000939370:web:b322358678291bf7cce713',
+   apiKey: 'AIzaSyBnv8pvyLFPizxhL7GZhZjY1CV4go-Wbfg',
+   authDomain: 'login-module-vue.firebaseapp.com',
+   projectId: 'login-module-vue',
+   storageBucket: 'login-module-vue.appspot.com',
+   messagingSenderId: '338708981633',
+   appId: '1:338708981633:web:e4fcc748367361607cea80',
 };
 
 ///Initialize Firebase///

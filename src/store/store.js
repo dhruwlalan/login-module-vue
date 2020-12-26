@@ -43,7 +43,7 @@ export default {
             await user.updateProfile({
                displayName: fullName,
                photoURL:
-                  'https://firebasestorage.googleapis.com/v0/b/login-module-dl.appspot.com/o/default.png?alt=media&token=a89763f0-3097-4bf3-b796-d36e35ec9769',
+                  'https://firebasestorage.googleapis.com/v0/b/login-module-vue.appspot.com/o/default.png?alt=media&token=ac9c3618-ab29-42b5-8fc4-54d31cbe68a2',
             });
             context.commit('storeUser', user);
             return 'success';

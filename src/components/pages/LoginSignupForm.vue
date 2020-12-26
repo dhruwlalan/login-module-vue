@@ -6,9 +6,9 @@
          <h3 class="form__header--title" v-else>Login</h3>
       </div>
       <div class="form__body">
-         <form-group type="fullName" @info="fullNameInfo" v-if="isSignup" />
-         <form-group type="email" @info="emailInfo" />
-         <form-group type="pass" @info="passInfo" />
+         <fgi-name v-model="fullName" @status="getFullNameStatus" v-if="isSignup" />
+         <fgi-email v-model="email" @status="getEmailStatus" />
+         <fgi-pass name="pass" v-model="password" @status="getPasswordStatus" />
          <submit-btn :btnStatus="btnStatus" @click.prevent="submit" v-if="isSignup">
             Creat Account
          </submit-btn>
@@ -33,39 +33,46 @@
 import BackLink from '../utils/BackLink.vue';
 import WaveSvg from '../utils/WaveSvg.vue';
 import SubmitBtn from '../utils/SubmitBtn.vue';
-import FormGroup from '../utils/FormGroup.vue';
+import FgiName from '../utils/FgiName.vue';
+import FgiEmail from '../utils/FgiEmail.vue';
+import FgiPass from '../utils/FgiPass.vue';
 
 export default {
    components: {
       BackLink,
       WaveSvg,
       SubmitBtn,
-      FormGroup,
+      FgiName,
+      FgiEmail,
+      FgiPass,
    },
    data() {
       return {
          fullName: '',
          email: '',
          password: '',
+         fullNameStatus: '',
+         emailStatus: '',
+         passwordStatus: '',
          btnStatus: 'not-submited',
       };
    },
    methods: {
-      fullNameInfo(info) {
-         this.fullName = info;
+      getFullNameStatus(status) {
+         this.fullNameStatus = status;
       },
-      emailInfo(info) {
-         this.email = info;
+      getEmailStatus(status) {
+         this.emailStatus = status;
       },
-      passInfo(info) {
-         this.password = info;
+      getPasswordStatus(status) {
+         this.passwordStatus = status;
       },
       signup() {
          this.$store
             .dispatch('register', {
-               fullName: this.fullName.fullName,
-               email: this.email.email,
-               password: this.password.pass,
+               fullName: this.fullName,
+               email: this.email,
+               password: this.password,
             })
             .then((res) => {
                if (res === 'success') {
@@ -86,8 +93,8 @@ export default {
       login() {
          this.$store
             .dispatch('login', {
-               email: this.email.email,
-               password: this.password.pass,
+               email: this.email,
+               password: this.password,
             })
             .then((res) => {
                if (res === 'success') {
@@ -107,17 +114,17 @@ export default {
       },
       submit() {
          if (this.isSignup) {
-            if (this.fullName.status === 'notEntered') {
+            if (this.fullNameStatus === 'notEntered') {
                this.showAlert('error', 'Please enter your full name.');
             }
          }
-         if (this.email.status === 'notEntered') {
+         if (this.emailStatus === 'notEntered') {
             this.showAlert('error', 'Please enter your email address.');
-         } else if (this.email.status === 'EnteredButInvalid') {
+         } else if (this.emailStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Please enter a valid email address.');
-         } else if (this.password.status === 'notEntered') {
+         } else if (this.passwordStatus === 'notEntered') {
             this.showAlert('error', 'Please enter your password.');
-         } else if (this.password.status === 'EnteredButInvalid') {
+         } else if (this.passwordStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Password should be at least 8 characters long.');
          } else {
             this.btnStatus = 'submited';

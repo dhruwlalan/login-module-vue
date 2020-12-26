@@ -1,6 +1,7 @@
 import { createWebHistory } from 'vue-router';
 
 import Home from '../components/pages/Home.vue';
+import Edit from '../components/pages/Edit.vue';
 import LoginSignupForm from '../components/pages/LoginSignupForm.vue';
 import ForgetPassword from '../components/pages/ForgetPassword.vue';
 import NotFound from '../components/pages/NotFound.vue';
@@ -20,6 +21,11 @@ export default {
          name: 'home',
          path: '/',
          component: Home,
+      },
+      {
+         name: 'edit',
+         path: '/edit',
+         component: Edit,
       },
       {
          name: 'login',

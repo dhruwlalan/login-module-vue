@@ -1,7 +1,7 @@
 <template>
    <not-logged-in v-if="!user"></not-logged-in>
    <template v-else>
-      <the-navbar></the-navbar>
+      <the-navbar page="home"></the-navbar>
       <hori-pipes></hori-pipes>
       <div class="section">
          <h1 class="home__title">Welcome,</h1>
