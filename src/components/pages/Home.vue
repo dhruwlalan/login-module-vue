@@ -1,5 +1,5 @@
 <template>
-   <login-signup v-if="!user"></login-signup>
+   <not-logged-in v-if="!user"></not-logged-in>
    <template v-else>
       <the-navbar></the-navbar>
       <hori-pipes></hori-pipes>
@@ -33,12 +33,12 @@
 import { mapGetters } from 'vuex';
 import TheNavbar from '../layout/TheNavbar.vue';
 import HoriPipes from '../layout/HoriPipes.vue';
-import LoginSignup from './LoginSignup.vue';
+import NotLoggedIn from './NotLoggedIn.vue';
 
 export default {
    components: {
       TheNavbar,
-      LoginSignup,
+      NotLoggedIn,
       HoriPipes,
    },
    computed: {

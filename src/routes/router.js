@@ -1,8 +1,7 @@
 import { createWebHistory } from 'vue-router';
 
 import Home from '../components/pages/Home.vue';
-import Login from '../components/pages/Login.vue';
-import Signup from '../components/pages/Signup.vue';
+import LoginSignupForm from '../components/pages/LoginSignupForm.vue';
 import ForgetPassword from '../components/pages/ForgetPassword.vue';
 import ResetPassword from '../components/pages/ResetPassword.vue';
 import NotFound from '../components/pages/NotFound.vue';
@@ -26,13 +25,13 @@ export default {
       {
          name: 'login',
          path: '/login',
-         component: Login,
+         component: LoginSignupForm,
          meta: { isOpenRoute: true },
       },
       {
          name: 'signup',
          path: '/signup',
-         component: Signup,
+         component: LoginSignupForm,
          meta: { isOpenRoute: true },
       },
       {

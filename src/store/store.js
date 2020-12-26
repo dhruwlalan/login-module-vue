@@ -48,6 +48,9 @@ export default {
             context.commit('storeUser', user);
             return 'success';
          } catch (error) {
+            if (error.code === 'auth/email-already-in-use') {
+               return 'Email already exists!';
+            }
             return error.message;
          }
       },
@@ -57,6 +60,9 @@ export default {
             context.commit('storeUser', user);
             return 'success';
          } catch (error) {
+            if (error.code === 'auth/user-not-found') {
+               return 'User not found!';
+            }
             return error.message;
          }
       },
