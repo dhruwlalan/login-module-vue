@@ -78,6 +78,47 @@ export default {
             return error.message;
          }
       },
+      async updateFullName(_context, fullName) {
+         try {
+            const user = await auth.currentUser;
+            await user.updateProfile({
+               displayName: fullName,
+            });
+            return 'success';
+         } catch (error) {
+            return error.code;
+         }
+      },
+      async updateProfilPic(_context, url) {
+         try {
+            const user = await auth.currentUser;
+            await user.updateProfile({
+               photoURL: url,
+            });
+            return 'success';
+         } catch (error) {
+            return error.code;
+         }
+      },
+      async uploadNewProfilePic(context, photo) {
+         try {
+            const user = context.getters.user;
+            const extAr = photo.name.split('.');
+            const ext = extAr[extAr.length - 1];
+            const name = `${user.uid}.${ext}`;
+            const metadata = {
+               contentType: photo.type,
+            };
+            const snapshot = await storageRef.child(name).put(photo, metadata);
+            const url = await snapshot.ref.getDownloadURL();
+            await user.updateProfile({
+               photoURL: url,
+            });
+            return 'success';
+         } catch (error) {
+            return error.code;
+         }
+      },
       showAlert(context, { type, msg }) {
          context.commit('showAlert', {
             type,
