@@ -6,7 +6,6 @@
       "build": "vite build"
    },
    "dependencies": {
-      "axios": "^0.21.1",
       "firebase": "^8.2.1",
       "validator": "^13.5.2",
       "vue": "^3.0.4",
@@ -14,7 +13,7 @@
       "vuex": "^4.0.0-rc.2"
    },
    "devDependencies": {
-      "vite": "^1.0.0-rc.13",
+      "@vue/compiler-sfc": "^3.0.4",
       "babel-eslint": "^10.1.0",
       "eslint": "^7.15.0",
       "eslint-config-airbnb-base": "^14.2.1",
@@ -24,6 +23,6 @@
       "eslint-plugin-vue": "^7.3.0",
       "prettier": "^2.2.1",
       "sass": "^1.30.0",
-      "@vue/compiler-sfc": "^3.0.4"
+      "vite": "^1.0.0-rc.13"
    }
 }

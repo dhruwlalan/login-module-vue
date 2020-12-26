@@ -3,7 +3,6 @@ import { createWebHistory } from 'vue-router';
 import Home from '../components/pages/Home.vue';
 import LoginSignupForm from '../components/pages/LoginSignupForm.vue';
 import ForgetPassword from '../components/pages/ForgetPassword.vue';
-import ResetPassword from '../components/pages/ResetPassword.vue';
 import NotFound from '../components/pages/NotFound.vue';
 
 export default {
@@ -38,12 +37,6 @@ export default {
          name: 'forgetPassword',
          path: '/forgetPassword',
          component: ForgetPassword,
-         meta: { isOpenRoute: true },
-      },
-      {
-         name: 'actMng',
-         path: '/actmng',
-         component: ResetPassword,
          meta: { isOpenRoute: true },
       },
       {
