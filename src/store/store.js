@@ -4,6 +4,8 @@ export default {
    state() {
       return {
          user: null,
+         defaultPhotoUrl:
+            'https://firebasestorage.googleapis.com/v0/b/login-module-vue.appspot.com/o/default.png?alt=media&token=ac9c3618-ab29-42b5-8fc4-54d31cbe68a2',
          alert: {
             showAlert: false,
             type: 'success',
@@ -12,8 +14,8 @@ export default {
       };
    },
    mutations: {
-      storeUser(state, payload) {
-         state.user = payload;
+      storeUser(state) {
+         state.user = auth.currentUser;
       },
       showAlert(state, payload) {
          state.alert.showAlert = true;
@@ -27,6 +29,9 @@ export default {
    getters: {
       user(store) {
          return store.user;
+      },
+      defaultPhotoUrl(store) {
+         return store.defaultPhotoUrl;
       },
       alert(store) {
          return {
@@ -42,10 +47,9 @@ export default {
             const { user } = await auth.createUserWithEmailAndPassword(email, password);
             await user.updateProfile({
                displayName: fullName,
-               photoURL:
-                  'https://firebasestorage.googleapis.com/v0/b/login-module-vue.appspot.com/o/default.png?alt=media&token=ac9c3618-ab29-42b5-8fc4-54d31cbe68a2',
+               photoURL: context.getters.defaultPhotoUrl,
             });
-            context.commit('storeUser', user);
+            context.commit('storeUser');
             return 'success';
          } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
@@ -56,8 +60,8 @@ export default {
       },
       async login(context, { email, password }) {
          try {
-            const { user } = await auth.signInWithEmailAndPassword(email, password);
-            context.commit('storeUser', user);
+            await auth.signInWithEmailAndPassword(email, password);
+            context.commit('storeUser');
             return 'success';
          } catch (error) {
             if (error.code === 'auth/user-not-found') {
@@ -68,7 +72,7 @@ export default {
       },
       async logout(context) {
          await auth.signOut();
-         context.commit('storeUser', null);
+         context.commit('storeUser');
       },
       async forgetPassword(_context, { email }) {
          try {
@@ -78,31 +82,27 @@ export default {
             return error.message;
          }
       },
-      async updateFullName(_context, fullName) {
+      async updateProfile(_context, { fullName, photoUrl }) {
          try {
             const user = await auth.currentUser;
-            await user.updateProfile({
-               displayName: fullName,
-            });
+            if (fullName) {
+               await user.updateProfile({
+                  displayName: fullName,
+               });
+            }
+            if (photoUrl) {
+               await user.updateProfile({
+                  photoURL: photoUrl,
+               });
+            }
             return 'success';
          } catch (error) {
             return error.code;
          }
       },
-      async updateProfilPic(_context, url) {
+      async uploadNewProfilePic(_context, photo) {
          try {
             const user = await auth.currentUser;
-            await user.updateProfile({
-               photoURL: url,
-            });
-            return 'success';
-         } catch (error) {
-            return error.code;
-         }
-      },
-      async uploadNewProfilePic(context, photo) {
-         try {
-            const user = context.getters.user;
             const extAr = photo.name.split('.');
             const ext = extAr[extAr.length - 1];
             const name = `${user.uid}.${ext}`;
