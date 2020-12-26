@@ -7,7 +7,7 @@ import { createApp } from 'vue';
 import Router from './routes/router';
 import Store from './store/store';
 import App from './App.vue';
-import auth from './firebase';
+import { auth } from './firebase';
 
 const router = createRouter(Router);
 const store = createStore(Store);

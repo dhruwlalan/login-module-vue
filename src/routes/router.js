@@ -1,6 +1,6 @@
 import { createWebHistory } from 'vue-router';
 
-import LoginSignup from '../components/pages/LoginSignup.vue';
+import Home from '../components/pages/Home.vue';
 import Login from '../components/pages/Login.vue';
 import Signup from '../components/pages/Signup.vue';
 import ForgetPassword from '../components/pages/ForgetPassword.vue';
@@ -21,7 +21,7 @@ export default {
       {
          name: 'home',
          path: '/',
-         component: LoginSignup,
+         component: Home,
       },
       {
          name: 'login',

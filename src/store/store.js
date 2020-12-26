@@ -1,4 +1,4 @@
-import auth from '../firebase';
+import { auth, storageRef } from '../firebase';
 
 export default {
    state() {
@@ -40,7 +40,11 @@ export default {
       async register(context, { fullName, email, password }) {
          try {
             const { user } = await auth.createUserWithEmailAndPassword(email, password);
-            await user.updateProfile({ displayName: fullName });
+            await user.updateProfile({
+               displayName: fullName,
+               photoURL:
+                  'https://firebasestorage.googleapis.com/v0/b/login-module-dl.appspot.com/o/default.png?alt=media&token=a89763f0-3097-4bf3-b796-d36e35ec9769',
+            });
             context.commit('storeUser', user);
             return 'success';
          } catch (error) {
