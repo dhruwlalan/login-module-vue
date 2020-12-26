@@ -42,8 +42,8 @@ export default {
          meta: { isOpenRoute: true },
       },
       {
-         name: 'resetPassword',
-         path: '/resetPassword/:resetId',
+         name: 'actMng',
+         path: '/actmng',
          component: ResetPassword,
          meta: { isOpenRoute: true },
       },

@@ -7,13 +7,13 @@
       <div class="form__body">
          <form-group type="email" @info="emailInfo" />
          <form-group type="pass" @info="passInfo" />
-         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Creat Account</submit-btn>
+         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Login</submit-btn>
          <router-link :to="{ name: 'forgetPassword' }" class="form__forget-password">
             Forget your password?
          </router-link>
       </div>
       <div class="form__footer">
-         <span>I'm a new user,</span>
+         <span>I'm a new user, </span>
          <router-link :to="{ name: 'signup' }" class="form__footer--link">Sign Up</router-link>
       </div>
       <wave-svg></wave-svg>

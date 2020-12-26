@@ -11,7 +11,7 @@
          <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Creat Account</submit-btn>
       </div>
       <div class="form__footer">
-         <span>I'm already a member,</span>
+         <span>I'm already a member, </span>
          <router-link :to="{ name: 'login' }" class="form__footer--link">Login</router-link>
       </div>
       <wave-svg></wave-svg>

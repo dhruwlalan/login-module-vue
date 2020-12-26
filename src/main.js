@@ -1,3 +1,5 @@
+import './sass/main.scss';
+
 import { createRouter } from 'vue-router';
 import { createStore } from 'vuex';
 import { createApp } from 'vue';
@@ -5,26 +7,19 @@ import { createApp } from 'vue';
 import Router from './routes/router';
 import Store from './store/store';
 import App from './App.vue';
-
-import { auth } from './firebase';
-import './sass/main.scss';
+import auth from './firebase';
 
 const router = createRouter(Router);
 const store = createStore(Store);
 let app;
 
 auth.onAuthStateChanged((user) => {
+   if (user) store.commit('storeUser', user);
    if (!app) {
       app = createApp(App);
       app.use(router);
       app.use(store);
-      if (user) {
-         store.dispatch('fetchUserProfil', user).then(() => {
-            app.mount('#app');
-         });
-      } else {
-         app.mount('#app');
-      }
+      app.mount('#app');
    }
 });
 

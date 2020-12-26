@@ -1,12 +1,14 @@
-import { auth, db } from '../firebase';
+import auth from '../firebase';
 
 export default {
    state() {
       return {
          user: null,
-         alert: false,
-         type: '',
-         msg: '',
+         alert: {
+            showAlert: false,
+            type: 'success',
+            msg: 'test',
+         },
       };
    },
    mutations: {
@@ -14,12 +16,12 @@ export default {
          state.user = payload;
       },
       showAlert(state, payload) {
-         state.alert = true;
-         state.type = payload.type;
-         state.msg = payload.msg;
+         state.alert.showAlert = true;
+         state.alert.type = payload.type;
+         state.alert.msg = payload.msg;
       },
       hideAlert(state) {
-         state.alert = false;
+         state.alert.showAlert = false;
       },
    },
    getters: {
@@ -28,9 +30,9 @@ export default {
       },
       alert(store) {
          return {
-            alert: store.alert,
-            type: store.type,
-            msg: store.msg,
+            alert: store.alert.showAlert,
+            type: store.alert.type,
+            msg: store.alert.msg,
          };
       },
    },
@@ -38,11 +40,8 @@ export default {
       async register(context, { fullName, email, password }) {
          try {
             const { user } = await auth.createUserWithEmailAndPassword(email, password);
-            await db.collection('users').doc(user.uid).set({
-               fullName,
-               email: user.email,
-            });
-            context.commit('storeUser', { fullName, email });
+            await user.updateProfile({ displayName: fullName });
+            context.commit('storeUser', user);
             return 'success';
          } catch (error) {
             return error.message;
@@ -51,7 +50,7 @@ export default {
       async login(context, { email, password }) {
          try {
             const { user } = await auth.signInWithEmailAndPassword(email, password);
-            context.dispatch('fetchUserProfil', user);
+            context.commit('storeUser', user);
             return 'success';
          } catch (error) {
             return error.message;
@@ -61,12 +60,12 @@ export default {
          await auth.signOut();
          context.commit('storeUser', null);
       },
-      async fetchUserProfil(context, user) {
+      async forgetPassword(_context, { email }) {
          try {
-            const userProfile = await db.collection('users').doc(user.uid).get();
-            context.commit('storeUser', userProfile.data());
+            await auth.sendPasswordResetEmail(email);
+            return 'success';
          } catch (error) {
-            context.dispatch('showAlert', { type: 'error', msg: error });
+            return error.message;
          }
       },
       showAlert(context, { type, msg }) {

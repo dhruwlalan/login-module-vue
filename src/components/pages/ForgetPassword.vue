@@ -6,27 +6,64 @@
          <h5 class="form__header--subtitle">Enter your email address to reset your password.</h5>
       </div>
       <div class="form__body">
-         <div class="form__group form__group--email">
-            <input class="form__group-input" id="emailInput" type="email" /><label
-               class="form__group-label"
-               id="emailLabel"
-               for="emailInput"
-               >Email</label
-            >
-         </div>
-         <button class="btn btn__forget-password" id="submit" type="submit">
-            <span class="btn__forget-password--text">Send Reset Link</span>
-         </button>
+         <form-group type="email" @info="emailInfo" />
+         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Login</submit-btn>
       </div>
    </form>
 </template>
 
 <script>
 import BackLink from '../utils/BackLink.vue';
+import SubmitBtn from '../utils/SubmitBtn.vue';
+import FormGroup from '../utils/FormGroup.vue';
 
 export default {
    components: {
       BackLink,
+      SubmitBtn,
+      FormGroup,
+   },
+   data() {
+      return {
+         email: '',
+         btnStatus: 'not-submited',
+      };
+   },
+   methods: {
+      emailInfo(info) {
+         this.email = info;
+      },
+      submit() {
+         if (this.email.status === 'notEntered') {
+            this.showAlert('error', 'Please enter your email address.');
+         } else if (this.email.status === 'EnteredButInvalid') {
+            this.showAlert('error', 'Please enter a valid email address.');
+         } else {
+            this.btnStatus = 'submited';
+            this.$store
+               .dispatch('forgetPassword', {
+                  email: this.email.email,
+               })
+               .then((res) => {
+                  if (res === 'success') {
+                     this.btnStatus = 'success';
+                     this.showAlert('success', 'Email sent.');
+                     setTimeout(() => {
+                        this.$router.push({ name: 'login' });
+                     }, 1000);
+                  } else {
+                     this.btnStatus = 'error';
+                     this.showAlert('error', res);
+                     setTimeout(() => {
+                        this.btnStatus = 'not-submited';
+                     }, 1000);
+                  }
+               });
+         }
+      },
+      showAlert(type, msg) {
+         this.$store.dispatch('showAlert', { type, msg });
+      },
    },
 };
 </script>
