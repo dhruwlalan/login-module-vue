@@ -7,7 +7,7 @@
       </div>
       <div class="form__body">
          <fgi-email v-model="email" @status="getEmailStatus" />
-         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Login</submit-btn>
+         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Send Reset Link</submit-btn>
       </div>
    </form>
 </template>
@@ -48,7 +48,7 @@ export default {
                .then((res) => {
                   if (res === 'success') {
                      this.btnStatus = 'success';
-                     this.showAlert('success', 'Email sent.');
+                     this.showAlert('success', 'Link sent to email successfully!');
                      setTimeout(() => {
                         this.$router.push({ name: 'login' });
                      }, 1000);
