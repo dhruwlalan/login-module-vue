@@ -4,6 +4,7 @@ import Home from '../components/pages/Home.vue';
 import Edit from '../components/pages/Edit.vue';
 import LoginSignupForm from '../components/pages/LoginSignupForm.vue';
 import ForgetPassword from '../components/pages/ForgetPassword.vue';
+import AccountManagement from '../components/pages/AccountManagement.vue';
 import NotFound from '../components/pages/NotFound.vue';
 
 export default {
@@ -43,6 +44,17 @@ export default {
          name: 'forgetPassword',
          path: '/forgetPassword',
          component: ForgetPassword,
+         meta: { isOpenRoute: true },
+      },
+      {
+         name: 'accountManagement',
+         path: '/accmng',
+         component: AccountManagement,
+         props: (route) => ({
+            mode: route.query.mode,
+            actionCode: route.query.oobCode,
+            apiKey: route.query.apiKey,
+         }),
          meta: { isOpenRoute: true },
       },
       {

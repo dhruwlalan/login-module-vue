@@ -74,14 +74,6 @@ export default {
          await auth.signOut();
          context.commit('storeUser');
       },
-      async forgetPassword(_context, { email }) {
-         try {
-            await auth.sendPasswordResetEmail(email);
-            return 'success';
-         } catch (error) {
-            return error.message;
-         }
-      },
       async reAuthenticateUser(_context, password) {
          try {
             const user = auth.currentUser;
@@ -168,6 +160,30 @@ export default {
             return 'success';
          } catch (error) {
             return error.code;
+         }
+      },
+      async forgetPassword(_context, { email }) {
+         try {
+            await auth.sendPasswordResetEmail(email);
+            return 'success';
+         } catch (error) {
+            return error.message;
+         }
+      },
+      async verifyPasswordResetCode(_context, actionCode) {
+         try {
+            const email = await auth.verifyPasswordResetCode(actionCode);
+            return email;
+         } catch (error) {
+            return 'InvalidActionCode';
+         }
+      },
+      async confirmPasswordReset(_context, { actionCode, newPassword }) {
+         try {
+            await auth.confirmPasswordReset(actionCode, newPassword);
+            return 'success';
+         } catch (error) {
+            return 'Error occurred during confirmation';
          }
       },
       showAlert(context, { type, msg }) {

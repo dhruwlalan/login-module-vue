@@ -31,7 +31,7 @@
 
 <script>
 import BackLink from '../utils/BackLink.vue';
-import WaveSvg from '../utils/WaveSvg.vue';
+import WaveSvg from '../layout/WaveSvg.vue';
 import SubmitBtn from '../utils/SubmitBtn.vue';
 import FgiName from '../utils/FgiName.vue';
 import FgiEmail from '../utils/FgiEmail.vue';
