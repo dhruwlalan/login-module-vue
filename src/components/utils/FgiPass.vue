@@ -25,19 +25,30 @@
       >
          {{ labelName }}
       </label>
-      <img
-         class="eye-svg"
-         :id="`eyeSvgFor${name}`"
+      <pass-show
+         v-if="!showPassword"
          :class="{ showeyesvg: showEyeSvg }"
          :style="eyeSvgStyle"
-         :src="eyeSvgIcon"
+         @click="tooglePassword"
+      />
+      <pass-hide
+         v-if="showPassword"
+         :class="{ showeyesvg: showEyeSvg }"
+         :style="eyeSvgStyle"
          @click="tooglePassword"
       />
    </div>
 </template>
 
 <script>
+import PassShow from './PassShow.vue';
+import PassHide from './PassHide.vue';
+
 export default {
+   components: {
+      PassShow,
+      PassHide,
+   },
    props: ['modelValue', 'name'],
    emits: ['update:modelValue', 'status'],
    data() {
