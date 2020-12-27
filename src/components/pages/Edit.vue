@@ -46,7 +46,7 @@
          <h3 class="form__header--midtitle">Update Your Email</h3>
          <div class="form__body">
             <fgi-email v-model="email" @status="getEmailStatus" />
-            <fgi-pass name="pass" v-model="curPass" @status="getCurPassStatus" />
+            <fgi-pass name="pass" v-model="pass" @status="getPassStatus" />
             <submit-btn :btnStatus="updateEmailBtnStatus" @click.prevent="updateEmailBtnSubmit">
                Update Email
             </submit-btn>
@@ -111,12 +111,16 @@ export default {
       getEmailStatus(status) {
          this.emailStatus = status;
       },
+      getPassStatus(status) {
+         this.passStatus = status;
+      },
       getCurPassStatus(status) {
          this.curPassStatus = status;
       },
       getNewPassStatus(status) {
          this.newPassStatus = status;
       },
+
       updateProfileBtnSubmit() {
          if (this.fullNameStatus === 'notEntered') {
             this.showAlert('error', 'Please enter your full name.');
@@ -146,13 +150,13 @@ export default {
                   this.updateProfileBtnStatus = 'success';
                   this.showAlert('success', 'Profile Updated Successfully!');
                   setTimeout(() => {
-                     this.editDataBtnStatus = 'not-submited';
+                     this.updateProfileBtnStatus = 'not-submited';
                   }, 1000);
                } else {
                   this.updateProfileBtnStatus = 'error';
                   this.showAlert('error', errorMsg[0]);
                   setTimeout(() => {
-                     this.editDataBtnStatus = 'not-submited';
+                     this.updateProfileBtnStatus = 'not-submited';
                   }, 1000);
                }
             });
@@ -163,13 +167,72 @@ export default {
             this.showAlert('error', 'Please enter your email address.');
          } else if (this.emailStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Please enter a valid email address.');
+         } else if (this.passStatus === 'notEntered') {
+            this.showAlert('error', 'Please enter your password to change your email');
+         } else if (this.passStatus === 'EnteredButInvalid') {
+            this.showAlert('error', 'Please enter your correct current password');
+         } else {
+            this.updateEmailBtnStatus = 'submited';
+            this.$store
+               .dispatch('updateEmail', {
+                  newEmail: this.email,
+                  password: this.pass,
+               })
+               .then((res) => {
+                  if (res === 'success') {
+                     this.updateEmailBtnStatus = 'success';
+                     this.pass = '';
+                     this.showAlert('success', 'Email Updated Successfully!');
+                     setTimeout(() => {
+                        this.updateEmailBtnStatus = 'not-submited';
+                     }, 1000);
+                  } else {
+                     this.updateEmailBtnStatus = 'error';
+                     this.pass = '';
+                     this.showAlert('error', res);
+                     setTimeout(() => {
+                        this.updateEmailBtnStatus = 'not-submited';
+                     }, 1000);
+                  }
+               });
          }
       },
       changePassBtnSubmit() {
-         console.log(this.curPass);
-         console.log(this.curPassStatus);
-         console.log(this.newPass);
-         console.log(this.newPassStatus);
+         if (this.curPassStatus === 'notEntered') {
+            this.showAlert('error', 'Please enter your current password.');
+         } else if (this.curPassStatus === 'EnteredButInvalid') {
+            this.showAlert('error', 'Please enter your valid current password.');
+         } else if (this.newPassStatus === 'notEntered') {
+            this.showAlert('error', 'Please enter your new password.');
+         } else if (this.newPassStatus === 'EnteredButInvalid') {
+            this.showAlert('error', 'Please enter a valid new password.');
+         } else {
+            this.changePassBtnStatus = 'submited';
+            this.$store
+               .dispatch('updatePassword', {
+                  curPass: this.curPass,
+                  newPass: this.newPass,
+               })
+               .then((res) => {
+                  if (res === 'success') {
+                     this.changePassBtnStatus = 'success';
+                     this.curPass = '';
+                     this.newPass = '';
+                     this.showAlert('success', 'Password Updated Successfully!');
+                     setTimeout(() => {
+                        this.changePassBtnStatus = 'not-submited';
+                     }, 1000);
+                  } else {
+                     this.changePassBtnStatus = 'error';
+                     this.curPass = '';
+                     this.newPass = '';
+                     this.showAlert('error', res);
+                     setTimeout(() => {
+                        this.changePassBtnStatus = 'not-submited';
+                     }, 1000);
+                  }
+               });
+         }
       },
 
       showAlert(type, msg) {

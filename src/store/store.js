@@ -1,4 +1,4 @@
-import { auth, storageRef } from '../firebase';
+import { fb, auth, storageRef } from '../firebase';
 
 export default {
    state() {
@@ -80,6 +80,57 @@ export default {
             return 'success';
          } catch (error) {
             return error.message;
+         }
+      },
+      async reAuthenticateUser(_context, password) {
+         try {
+            const user = auth.currentUser;
+            const credentials = fb.auth.EmailAuthProvider.credential(user.email, password);
+            await user.reauthenticateWithCredential(credentials);
+            return 'success';
+         } catch (error) {
+            console.log(error.code);
+            return error.code;
+         }
+      },
+      async updateEmail(context, { newEmail, password }) {
+         const user = auth.currentUser;
+         const res = await context.dispatch('reAuthenticateUser', password);
+         if (res === 'success') {
+            try {
+               await user.updateEmail(newEmail);
+               return 'success';
+            } catch (error) {
+               return error.code;
+            }
+         } else {
+            if (res === 'auth/wrong-password') {
+               return 'Invalid Current Password!';
+            }
+            if (res === 'auth/too-many-requests') {
+               return 'Please try after some time!';
+            }
+            return 'something went wrong!';
+         }
+      },
+      async updatePassword(context, { curPass, newPass }) {
+         const user = auth.currentUser;
+         const res = await context.dispatch('reAuthenticateUser', curPass);
+         if (res === 'success') {
+            try {
+               await user.updatePassword(newPass);
+               return 'success';
+            } catch (error) {
+               return error.code;
+            }
+         } else {
+            if (res === 'auth/wrong-password') {
+               return 'Invalid Current Password!';
+            }
+            if (res === 'auth/too-many-requests') {
+               return 'Please try after some time!';
+            }
+            return 'something went wrong!';
          }
       },
       async updateProfile(_context, { fullName, photoUrl }) {
