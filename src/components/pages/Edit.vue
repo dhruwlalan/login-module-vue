@@ -259,7 +259,7 @@ export default {
       },
       onCropped(cropImageUrl) {
          this.photoUrl = cropImageUrl.base64;
-         this.newProfile = cropImageUrl.blob;
+         this.newProfile = cropImageUrl.photo;
       },
    },
    computed: {
@@ -269,11 +269,12 @@ export default {
    },
    watch: {
       openImageCropModal() {
-         console.log('here');
          if (this.openImageCropModal === true) {
             document.body.style.overflowY = 'hidden';
          } else {
-            document.body.removeAttribute('style');
+            setTimeout(() => {
+               document.body.removeAttribute('style');
+            }, 600);
          }
       },
    },

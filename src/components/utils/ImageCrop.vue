@@ -1,68 +1,79 @@
 <template>
    <teleport to="body">
-      <div class="backdrop" v-show="modelValue"></div>
+      <transition enter-active-class="animate fade-in" leave-active-class="animate fade-out">
+         <div class="backdrop" v-show="modelValue"></div>
+      </transition>
    </teleport>
-   <div class="ic__container" v-if="modelValue">
-      <div class="ic__header">
-         <div class="ic__header--title">Image Cropper</div>
-         <span class="ic__header--cancel-btn" @click="cancel()">×</span>
-      </div>
-      <div class="ic__body">
-         <div class="ic__body--canvas">
-            <img class="ic__body--canvas--img" ref="mc" :src="img" v-show="croploaded" />
+   <spinner :spinner="spinner" color="white" if="modelValue"></spinner>
+   <transition enter-active-class="animate slide-down" leave-active-class="animate slide-up">
+      <div class="ic__container" v-show="showModal">
+         <div class="ic__header">
+            <div class="ic__header--title">Image Cropper</div>
+            <span class="ic__header--cancel-btn" @click="closeModal">×</span>
          </div>
+         <div class="ic__body">
+            <div class="ic__body--canvas">
+               <img class="ic__body--canvas--img" ref="mc" :src="img" />
+            </div>
+         </div>
+         <div class="ic__footer" @click="cropImage">crop</div>
       </div>
-      <div class="ic__footer" @click="cropImage">crop</div>
-   </div>
+   </transition>
 </template>
 
 <script>
 import '../../cropper.css';
 import Cropper from 'cropperjs';
+import spinner from './spinner.vue';
 
 export default {
+   components: {
+      spinner,
+   },
    props: ['modelValue', 'img'],
    emits: ['update:modelValue', 'cropped'],
    data() {
       return {
+         spinner: false,
+         showModal: false,
          cropper: null,
-         croploaded: false,
       };
    },
    watch: {
       modelValue() {
          if (this.modelValue === true) {
-            this.croploaded = false;
+            this.spinner = true;
             setTimeout(() => {
-               setTimeout(() => {
-                  this.croploaded = true;
-               }, 100);
-               this.newImage();
-            }, 100);
+               this.spinner = false;
+               this.showModal = true;
+               this.createNewCropperInstance();
+            }, 500);
          }
       },
    },
-   computed: {},
    methods: {
-      cancel() {
+      closeModal() {
          this.$emit('update:modelValue', false);
-         this.cropper.destroy();
+         this.showModal = false;
+         setTimeout(() => {
+            this.cropper.destroy();
+         }, 500);
       },
       cropImage() {
+         this.closeModal();
          const base64 = this.cropper
-            .getCroppedCanvas({ maxWidth: 3072, maxHeight: 3072 })
+            .getCroppedCanvas({ maxWidth: 1000, maxHeight: 1000 })
             .toDataURL();
          this.cropper.getCroppedCanvas({ maxWidth: 1000, maxHeight: 1000 }).toBlob(
             (blob) => {
-               blob = this.blobToFile(blob, 'testing.jpeg');
-               this.$emit('cropped', { base64, blob });
-               this.$emit('update:modelValue', false);
+               const photo = this.blobToFile(blob, 'testing.jpeg');
+               this.$emit('cropped', { base64, photo });
             },
             'image/jpeg',
             1,
          );
       },
-      newImage() {
+      createNewCropperInstance() {
          this.cropper = new Cropper(this.$refs.mc, {
             aspectRatio: 1 / 1,
             viewMode: 2,
@@ -70,7 +81,7 @@ export default {
             guides: false,
             highlight: false,
             center: false,
-            autoCropArea: 1,
+            autoCropArea: 0.8,
             movable: false,
             rotatable: false,
             scalable: false,
@@ -89,12 +100,12 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .backdrop {
    position: fixed;
-   height: 100vh;
-   width: 100vw;
    top: 0;
+   right: 0;
+   bottom: 0;
    left: 0;
    z-index: 100;
    background-color: rgb(0 5 14 / 70%);
@@ -103,8 +114,7 @@ export default {
    &__container {
       position: fixed;
       top: 5rem;
-      left: 50%;
-      transform: translateX(-50%);
+      margin: 0 auto;
       z-index: 200;
       border-radius: 5px;
       display: flex;
@@ -136,7 +146,6 @@ export default {
    }
    &__body {
       background: linear-gradient(to bottom, var(--pri-blue), var(--success-bc));
-      background-color: black;
       padding: 4px;
       &--canvas {
          width: 400px;
@@ -158,5 +167,63 @@ export default {
       align-items: center;
       cursor: pointer;
    }
+}
+
+.animate {
+   -webkit-animation-duration: 0.3s;
+   animation-duration: 0.3s;
+}
+@keyframes fade-in {
+   0% {
+      opacity: 0;
+   }
+   100% {
+      opacity: 1;
+   }
+}
+.fade-in {
+   -webkit-animation-name: fade-in;
+   animation-name: fade-in;
+}
+@keyframes fade-out {
+   0% {
+      opacity: 1;
+   }
+   100% {
+      opacity: 0;
+   }
+}
+.fade-out {
+   -webkit-animation-name: fade-out;
+   animation-name: fade-out;
+}
+@keyframes slide-down {
+   0% {
+      -webkit-transform: translateY(-200px);
+      transform: translateY(-200px);
+   }
+   100% {
+      -webkit-transform: none;
+      transform: none;
+   }
+}
+.slide-down {
+   -webkit-animation-name: slide-down;
+   animation-name: slide-down;
+}
+@keyframes slide-up {
+   0% {
+      -webkit-transform: none;
+      transform: none;
+   }
+   100% {
+      -webkit-transform: translateY(-200px);
+      transform: translateY(-200px);
+      opacity: 0;
+   }
+}
+.slide-up {
+   -webkit-animation-name: slide-up;
+   animation-name: slide-up;
 }
 </style>

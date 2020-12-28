@@ -13,6 +13,13 @@ const router = createRouter(Router);
 const store = createStore(Store);
 let app;
 
+const loader = document.getElementById('loader');
+window.addEventListener('load', () => {
+   setTimeout(() => {
+      loader.remove();
+   }, 800);
+});
+
 auth.onAuthStateChanged((user) => {
    if (user) store.commit('storeUser', user);
    if (!app) {
@@ -22,7 +29,6 @@ auth.onAuthStateChanged((user) => {
       app.mount('#app');
    }
 });
-
 router.beforeEach((to, _from, next) => {
    if (to.matched.some((record) => record.meta.isOpenRoute)) {
       if (!auth.currentUser) {
