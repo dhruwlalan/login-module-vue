@@ -17,10 +17,10 @@ export default {
       storeUser(state) {
          state.user = auth.currentUser;
       },
-      showAlert(state, payload) {
+      showAlert(state, { type, msg }) {
          state.alert.showAlert = true;
-         state.alert.type = payload.type;
-         state.alert.msg = payload.msg;
+         state.alert.type = type;
+         state.alert.msg = msg;
       },
       hideAlert(state) {
          state.alert.showAlert = false;
@@ -74,6 +74,32 @@ export default {
          await auth.signOut();
          context.commit('storeUser');
       },
+
+      async forgetPassword(_context, { email }) {
+         try {
+            await auth.sendPasswordResetEmail(email);
+            return 'success';
+         } catch (error) {
+            return error.message;
+         }
+      },
+      async verifyPasswordResetCode(_context, actionCode) {
+         try {
+            const email = await auth.verifyPasswordResetCode(actionCode);
+            return email;
+         } catch (error) {
+            return 'InvalidActionCode';
+         }
+      },
+      async confirmPasswordReset(_context, { actionCode, newPassword }) {
+         try {
+            await auth.confirmPasswordReset(actionCode, newPassword);
+            return 'success';
+         } catch (error) {
+            return 'Error occurred during confirmation';
+         }
+      },
+
       async reAuthenticateUser(_context, password) {
          try {
             const user = auth.currentUser;
@@ -143,6 +169,7 @@ export default {
             return error.code;
          }
       },
+
       async uploadNewProfilePic(_context, photo) {
          try {
             const user = await auth.currentUser;
@@ -160,30 +187,6 @@ export default {
             return 'success';
          } catch (error) {
             return error.code;
-         }
-      },
-      async forgetPassword(_context, { email }) {
-         try {
-            await auth.sendPasswordResetEmail(email);
-            return 'success';
-         } catch (error) {
-            return error.message;
-         }
-      },
-      async verifyPasswordResetCode(_context, actionCode) {
-         try {
-            const email = await auth.verifyPasswordResetCode(actionCode);
-            return email;
-         } catch (error) {
-            return 'InvalidActionCode';
-         }
-      },
-      async confirmPasswordReset(_context, { actionCode, newPassword }) {
-         try {
-            await auth.confirmPasswordReset(actionCode, newPassword);
-            return 'success';
-         } catch (error) {
-            return 'Error occurred during confirmation';
          }
       },
       showAlert(context, { type, msg }) {

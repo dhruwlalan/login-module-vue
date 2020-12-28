@@ -267,5 +267,15 @@ export default {
          return this.photoUrl === this.$store.getters.defaultPhotoUrl;
       },
    },
+   watch: {
+      openImageCropModal() {
+         console.log('here');
+         if (this.openImageCropModal === true) {
+            document.body.style.overflowY = 'hidden';
+         } else {
+            document.body.removeAttribute('style');
+         }
+      },
+   },
 };
 </script>

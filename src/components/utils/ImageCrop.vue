@@ -1,22 +1,23 @@
 <template>
-   <teleport to="body" v-if="modelValue">
-      <div class="backdrop"></div>
+   <teleport to="body">
+      <div class="backdrop" v-show="modelValue"></div>
    </teleport>
-   <div class="main-cropper-container" v-if="modelValue">
-      <div class="bestcropper">
-         <div class="main-cropper">
-            <img class="cropperjs" ref="mc" :src="img" v-show="croploaded" />
+   <div class="ic__container" v-if="modelValue">
+      <div class="ic__header">
+         <div class="ic__header--title">Image Cropper</div>
+         <span class="ic__header--cancel-btn" @click="cancel()">×</span>
+      </div>
+      <div class="ic__body">
+         <div class="ic__body--canvas">
+            <img class="ic__body--canvas--img" ref="mc" :src="img" v-show="croploaded" />
          </div>
       </div>
-      <div class="main-cropper__handlers">
-         <div class="mch--btn mch--btn--cancel" @click="cancel()">cancel</div>
-         <div class="mch--btn mch--btn--save" @click="cropImage">save</div>
-      </div>
+      <div class="ic__footer" @click="cropImage">crop</div>
    </div>
 </template>
 
 <script>
-import 'cropperjs/dist/cropper.css';
+import '../../cropper.css';
 import Cropper from 'cropperjs';
 
 export default {
@@ -48,12 +49,18 @@ export default {
          this.cropper.destroy();
       },
       cropImage() {
-         const base64 = this.cropper.getCroppedCanvas({ width: 200, height: 200 }).toDataURL();
-         this.cropper.getCroppedCanvas({ width: 200, height: 200 }).toBlob((blob) => {
-            blob = this.blobToFile(blob, 'haha.png');
-            this.$emit('cropped', { base64, blob });
-            this.$emit('update:modelValue', false);
-         });
+         const base64 = this.cropper
+            .getCroppedCanvas({ maxWidth: 3072, maxHeight: 3072 })
+            .toDataURL();
+         this.cropper.getCroppedCanvas({ maxWidth: 1000, maxHeight: 1000 }).toBlob(
+            (blob) => {
+               blob = this.blobToFile(blob, 'testing.jpeg');
+               this.$emit('cropped', { base64, blob });
+               this.$emit('update:modelValue', false);
+            },
+            'image/jpeg',
+            1,
+         );
       },
       newImage() {
          this.cropper = new Cropper(this.$refs.mc, {
@@ -68,83 +75,21 @@ export default {
             rotatable: false,
             scalable: false,
             zoomable: false,
-            imageSmoothingEnabled: false,
+            fillColor: '#fff',
+            imageSmoothingEnabled: true,
             imageSmoothingQuality: 'high',
          });
       },
-      blobToFile(theBlob, fileName) {
+      blobToFile(blob, fileName) {
          const lastModifiedDate = new Date();
-         const file = new File([theBlob], fileName, { lastModified: lastModifiedDate });
+         const file = new File([blob], fileName, { lastModified: lastModifiedDate });
          return file;
       },
    },
 };
 </script>
 
-<style scoped>
-.main-cropper-container {
-   position: fixed;
-   background-color: rgb(149 149 149);
-   top: 2rem;
-   left: 50%;
-   transform: translateX(-50%);
-   z-index: 9999;
-   overflow: hidden;
-   border-radius: 5px;
-   user-select: none;
-   display: flex;
-   paddint: 1rem;
-   flex-direction: column;
-}
-.bestcropper {
-   padding: 6px;
-   background: linear-gradient(to right, var(--error-bc) 40%, var(--success-bc) 60%);
-}
-.main-cropper {
-   background-color: rgb(149 149 149);
-   width: 360px;
-   height: 360px;
-}
-.cropperjs {
-   display: block;
-   max-width: 100%;
-}
-.main-cropper__handlers {
-   height: 6rem;
-   width: 100%;
-   background-color: rgb(149 149 149);
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-.mch--btn {
-   height: 100%;
-   width: 100%;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   font-family: Roboto, sans-serif;
-   font-size: 2rem;
-   cursor: pointer;
-}
-.mch--btn--cancel {
-   background-color: var(--error-bc);
-   color: var(--error-c);
-}
-.mch--btn--cancel:hover,
-.mch--btn--cancel:active {
-   background-color: var(--error-c);
-   color: var(--error-bc);
-}
-.mch--btn--save {
-   background-color: var(--success-bc);
-   color: var(--success-c);
-}
-.mch--btn--save:hover,
-.mch--btn--save:active {
-   color: var(--success-bc);
-   background-color: var(--success-c);
-}
+<style lang="scss">
 .backdrop {
    position: fixed;
    height: 100vh;
@@ -152,9 +97,66 @@ export default {
    top: 0;
    left: 0;
    z-index: 100;
-   background-color: rgb(0 5 14 / 61%);
+   background-color: rgb(0 5 14 / 70%);
 }
-.cropBack {
-   background-color: deeppink;
+.ic {
+   &__container {
+      position: fixed;
+      top: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      user-select: none;
+   }
+   &__header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      height: 4.5rem;
+      background-color: var(--pri-blue);
+      &--title {
+         color: lavender;
+         font-family: Roboto, sans-serif;
+         font-size: 2rem;
+      }
+      &--cancel-btn {
+         position: absolute;
+         right: 1.5rem;
+         font-family: Roboto, sans-serif;
+         font-size: 3rem;
+         color: lavender;
+         font-weight: 400;
+         cursor: pointer;
+      }
+   }
+   &__body {
+      background: linear-gradient(to bottom, var(--pri-blue), var(--success-bc));
+      background-color: black;
+      padding: 4px;
+      &--canvas {
+         width: 400px;
+         height: 400px;
+         &--img {
+            display: block;
+            max-width: 100%;
+         }
+      }
+   }
+   &__footer {
+      color: var(--success-c);
+      font-family: Roboto, sans-serif;
+      font-size: 2rem;
+      height: 4.5rem;
+      background-color: var(--success-bc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+   }
 }
 </style>
