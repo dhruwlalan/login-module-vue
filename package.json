@@ -6,6 +6,7 @@
       "build": "vite build"
    },
    "dependencies": {
+      "cropperjs": "^1.5.9",
       "firebase": "^8.2.1",
       "validator": "^13.5.2",
       "vue": "^3.0.4",

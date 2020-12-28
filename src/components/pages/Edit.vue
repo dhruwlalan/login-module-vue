@@ -6,6 +6,7 @@
          <h3 class="form__header--midtitle">Update Your Profile</h3>
          <div class="form__body">
             <fgi-name v-model="fullName" @status="getFullNameStatus" />
+            <image-crop v-model="openImageCropModal" :img="cropUrl" @cropped="onCropped" />
             <div class="form__group__profile">
                <img class="form__group__profile--preview" id="uploadImagePreview" :src="photoUrl" />
                <input
@@ -75,6 +76,7 @@ import FgiName from '../utils/FgiName.vue';
 import FgiEmail from '../utils/FgiEmail.vue';
 import FgiPass from '../utils/FgiPass.vue';
 import SubmitBtn from '../utils/SubmitBtn.vue';
+import ImageCrop from '../utils/ImageCrop.vue';
 
 export default {
    components: {
@@ -84,9 +86,11 @@ export default {
       FgiEmail,
       FgiPass,
       SubmitBtn,
+      ImageCrop,
    },
    data() {
       return {
+         img: 'https://images.pexels.com/photos/226746/pexels-photo-226746.jpeg',
          fullName: this.$store.getters.user.displayName,
          email: this.$store.getters.user.email,
          photoUrl: this.$store.getters.user.photoURL,
@@ -102,6 +106,8 @@ export default {
          updateProfileBtnStatus: 'not-submited',
          updateEmailBtnStatus: 'not-submited',
          changePassBtnStatus: 'not-submited',
+         cropUrl: '',
+         openImageCropModal: false,
       };
    },
    methods: {
@@ -243,12 +249,17 @@ export default {
          const reader = new FileReader();
          reader.readAsDataURL(photo);
          reader.onload = (e) => {
-            this.photoUrl = e.target.result;
+            this.cropUrl = e.target.result;
+            this.$refs.uploadImageInput.value = '';
+            this.openImageCropModal = true;
          };
-         this.newProfile = photo;
       },
       setProfilePicToDefault() {
          this.photoUrl = this.$store.getters.defaultPhotoUrl;
+      },
+      onCropped(cropImageUrl) {
+         this.photoUrl = cropImageUrl.base64;
+         this.newProfile = cropImageUrl.blob;
       },
    },
    computed: {
