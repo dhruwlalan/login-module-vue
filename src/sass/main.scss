@@ -1,23 +1,23 @@
-// BASE
+///BASE///
 @use "base/base";
 @use "base/reset";
 @use "base/animations";
-// COMPONENTS
+///COMPONENTS///
 @use "components/alerts";
 @use "components/spinner";
 @use "components/pipes";
 @use "components/cropper";
-// COMPONENTS/FORMS
+//#COMPONENTS/FORMS#//
 @use "components/forms/form";
 @use "components/forms/form-header";
 @use "components/forms/form-body";
 @use "components/forms/form-footer";
 @use "components/forms/form-btns";
 @use "components/forms/form-utils";
-// LAYOUT
+///LAYOUT///
 @use "layout/container";
 @use "layout/section";
 @use "layout/navbar";
 @use "layout/home";
-@use "layout/loginSignup";
-@use "layout/pageNotFound";
+@use "layout/notLoggedIn";
+@use "layout/notFound";

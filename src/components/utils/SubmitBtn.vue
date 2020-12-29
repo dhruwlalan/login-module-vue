@@ -1,7 +1,7 @@
 <template>
    <button class="btn btn__signup" type="submit">
       <slot v-if="notSubmited"></slot>
-      <span v-else-if="spinner" class="spinner" />
+      <span v-else-if="spinner" class="spinner-white" />
       <span v-else-if="success">&#10003;</span>
       <span v-else-if="error">&#10007;</span>
    </button>

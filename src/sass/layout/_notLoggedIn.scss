@@ -1,0 +1,51 @@
+@use "../abstracts" as *;
+
+.nli {
+   @include size($maxw: 60rem);
+   @include bg($c: $background);
+   @include pbm($p: 4rem, $rad: 1rem, $m: 0 auto);
+   @include disable-selection;
+   box-shadow: 0 1rem 3rem rgb(0 0 0 / 25%);
+
+   @media (max-width: 450px) {
+      @include pbm($p: 3rem 2rem);
+   }
+
+   &__heading {
+      @include typo($c: $pri-blue, $ff: $roboto, $fs: 5rem, $fw: 500, $ta: center);
+      @include pbm($mb: 3rem);
+   }
+
+   &__desc {
+      @include typo($c: $sec-blue, $ff: $roboto, $fs: 2rem, $fw: 400, $ta: center);
+      @include pbm($mb: 4rem);
+   }
+
+   &__links {
+      @include size($h: 4rem);
+      @include flex($jc: center);
+
+      &--link {
+         @include size($h: 100%, $w: 14rem);
+         @include bg($c: $pri-blue);
+         @include typo($c: $white, $ff: $roboto, $fs: 2rem, $fw: 400, $td: none);
+         @include pbm($rad: 1rem);
+         @include flex($jc: center, $ai: center);
+         outline: none;
+         cursor: pointer;
+
+         &:not(:last-child) {
+            margin-right: 2rem;
+         }
+         &:hover {
+            @include bg($c: $hov-blue);
+         }
+         &:active {
+            @include bg($c: $pri-blue);
+         }
+         &:focus {
+            box-shadow: 0 0 0 4px $foc-blue;
+         }
+      }
+   }
+}
