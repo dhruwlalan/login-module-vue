@@ -1,4 +1,4 @@
-import { createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 import Home from '../components/pages/Home.vue';
 import Edit from '../components/pages/Edit.vue';
@@ -7,7 +7,7 @@ import ForgetPassword from '../components/pages/ForgetPassword.vue';
 import AccountManagement from '../components/pages/AccountManagement.vue';
 import NotFound from '../components/pages/NotFound.vue';
 
-export default {
+const Router = createRouter({
    history: createWebHistory(),
    linkActiveClass: 'active-link',
    linkExactActiveClass: 'exact-active-link',
@@ -63,4 +63,6 @@ export default {
          props: true,
       },
    ],
-};
+});
+
+export default Router;

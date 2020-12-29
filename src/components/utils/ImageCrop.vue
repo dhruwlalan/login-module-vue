@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import '../../cropper.css';
 import Cropper from 'cropperjs';
 import spinner from './spinner.vue';
 

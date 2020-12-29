@@ -1,6 +1,7 @@
+import { createStore } from 'vuex';
 import { fb, auth, storageRef } from '../firebase';
 
-export default {
+const Store = createStore({
    state() {
       return {
          user: null,
@@ -199,4 +200,6 @@ export default {
          }, 1000);
       },
    },
-};
+});
+
+export default Store;
