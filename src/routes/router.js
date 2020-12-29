@@ -28,6 +28,7 @@ const Router = createRouter({
          name: 'edit',
          path: '/edit',
          component: Edit,
+         meta: { requiresAuth: true },
       },
       {
          name: 'login',
@@ -69,6 +70,12 @@ const Router = createRouter({
 Router.beforeEach((to, _from, next) => {
    if (to.matched.some((record) => record.meta.isOpenRoute)) {
       if (!auth.currentUser) {
+         next();
+      } else {
+         next({ name: 'home' });
+      }
+   } else if (to.matched.some((record) => record.meta.requiresAuth)) {
+      if (auth.currentUser) {
          next();
       } else {
          next({ name: 'home' });
