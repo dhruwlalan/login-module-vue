@@ -1,13 +1,13 @@
 <template>
    <div
-      class="form__group form__group--name"
+      class="form__group"
       :class="groupState"
       :style="groupStyle"
       @mouseenter="mouseEnter"
       @mouseleave="mouseLeave"
    >
       <input
-         class="form__group-input"
+         class="form__group-input form__group-input--pass"
          :id="`${name}Input`"
          :class="passClass"
          :type="passwordVisibility"

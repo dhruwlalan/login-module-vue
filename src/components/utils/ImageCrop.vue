@@ -4,7 +4,7 @@
          <div class="backdrop" v-show="modelValue"></div>
       </transition>
    </teleport>
-   <spinner :spinner="spinner" color="white" if="modelValue"></spinner>
+   <spinner :spinner="spinner" if="modelValue"></spinner>
    <transition enter-active-class="animate slide-down" leave-active-class="animate slide-up">
       <div class="ic__container" v-show="showModal">
          <div class="ic__header">

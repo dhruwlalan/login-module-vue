@@ -1,5 +1,5 @@
 <template>
-   <form class="form form--signup" autocomplete="off">
+   <form class="form" autocomplete="off">
       <div class="form__header">
          <back-link name="home"></back-link>
          <h3 class="form__header--title" v-if="isSignup">Sign Up</h3>

@@ -1,16 +1,23 @@
 @use "../../abstracts" as *;
-@use "../../abstracts/placeholder" as *;
-
-.showeyesvg { display: inline-block !important; }
-.focus-input , .hover-input { border: 1px solid $error; }
-.focus-label , .hover-label { color: $error; }
 
 .eye-svg {
-	@include size( $h: 2rem , );
-	@extend %disable-selection;
-	@include pos-absolute( $t: 50% , $r: 1rem , );
-	@extend %cur-out;
-	transform: translateY( -50% );
-	filter: invert(28%) sepia(100%) saturate(3433%) hue-rotate(207deg) brightness(103%) contrast(101%);
-	display: none;
+   @include size($h: 2rem);
+   @include pos-absolute($t: 50%, $r: 1rem);
+   display: none;
+   transform: translateY(-50%);
+   outline: none;
+   cursor: pointer;
+}
+
+.showeyesvg {
+   display: inline-block !important;
+}
+
+.focus-input,
+.hover-input {
+   border: 1px solid $error;
+}
+.focus-label,
+.hover-label {
+   color: $error;
 }

@@ -1,5 +1,5 @@
 <template>
-   <form class="form form--reset-password" autocomplete="off" v-if="isInvalidCode">
+   <form class="form form--fit" autocomplete="off" v-if="isInvalidCode">
       <div class="form__header">
          <h3 class="form__header--title">Reset Password</h3>
          <h5 class="form__header--subtitle">
@@ -14,7 +14,7 @@
          </div>
       </div>
    </form>
-   <form class="form form--reset-password" autocomplete="off" v-if="!isInvalidCode && showForm">
+   <form class="form form--fit" autocomplete="off" v-if="!isInvalidCode && showForm">
       <div class="form__header">
          <h3 class="form__header--title">Reset Password</h3>
          <h5 class="form__header--subtitle">{{ accountEmail }}</h5>

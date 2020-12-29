@@ -11,7 +11,8 @@
    animation: spin 1s linear infinite;
 }
 
-.pre-loader {
+.spinner {
    @include pos-fixed($t: 2rem, $l: 50%);
-   transform: translateY(-50%);
+   transform: translateX(-50%);
+   z-index: 99999;
 }

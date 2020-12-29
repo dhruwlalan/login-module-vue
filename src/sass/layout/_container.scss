@@ -1,6 +1,6 @@
 @use '../abstracts' as *;
 
 .container {
-	@include size( $maxw: 100rem , );
-	@include pbm( $m: 0 auto , );
+   @include size($maxw: 100rem);
+   @include pbm($m: 0 auto);
 }

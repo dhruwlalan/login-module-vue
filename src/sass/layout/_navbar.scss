@@ -1,34 +1,47 @@
 @use "../abstracts" as *;
-@use "../abstracts/placeholder" as *;
 
 .navbar {
-	@include size( $h: 5rem , $w: 100% , );
-	@extend %white-bgc;
-	@include pbm( $rad: 1rem , $p: 0 2rem , );
-	@include flex( $jc: space-between , $ai: center , );
-	box-shadow: 0 0 4rem rgb(0 0 0 / 25%);
-	@extend %disable-selection;
+   @include size($h: 5rem, $w: 100%);
+   @include bg($c: $background);
+   @include pbm($rad: 1rem, $p: 0 2rem);
+   @include flex($jc: space-between, $ai: center);
+   box-shadow: 0 0 4rem rgb(0 0 0 / 25%);
+   @include disable-selection;
 
-	&__link {
-		@include flex( $ai: center , );
-		@extend %cur-out;
+   &__link {
+      @include flex($ai: center);
+      outline: none;
+      cursor: pointer;
 
-		&#edit:hover &--text { transform: translateX( 1px ); }
-		&#edit:hover &--svgbox { transform: translateX( -1px ); }
-		&#home:hover &--text { transform: translateX( 1px ); }
-		&#home:hover &--svgbox { transform: translateX( -1px ); }
-		&#logout:hover &--text { transform: translateX( -1px ); }
-		&#logout:hover &--svgbox { transform: translateX( 1px ); }
+      &#edit:hover &--text {
+         transform: translateX(1px);
+      }
+      &#edit:hover &--svgbox {
+         transform: translateX(-1px);
+      }
+      &#home:hover &--text {
+         transform: translateX(1px);
+      }
+      &#home:hover &--svgbox {
+         transform: translateX(-1px);
+      }
+      &#logout:hover &--text {
+         transform: translateX(-1px);
+      }
+      &#logout:hover &--svgbox {
+         transform: translateX(1px);
+      }
 
-		&--text {
-			@include typo( $c: $pri-blue , $ff: $roboto , $fs: 2rem , $fw: 500 , $td: none , );
-			@include pbm( $m: 0 5px , );
-			transition: transform .3s ease;
-		}
-		&--svg {
-			@include size( $h: 2rem , $w: 2rem , );
-			fill: $pri-blue;
-			&box { transition: transform .3s ease; }
-		}
-	}
+      &--text {
+         @include typo($c: $pri-blue, $ff: $roboto, $fs: 2rem, $fw: 500, $td: none);
+         @include pbm($m: 0 5px);
+         transition: transform 0.3s ease;
+      }
+      &--svg {
+         @include size($h: 2rem, $w: 2rem);
+         &box {
+            transition: transform 0.3s ease;
+         }
+      }
+   }
 }

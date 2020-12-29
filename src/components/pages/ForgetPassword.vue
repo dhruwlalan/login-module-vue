@@ -1,5 +1,5 @@
 <template>
-   <form class="form form--forget-password" autocomplete="off">
+   <form class="form form--fit" autocomplete="off">
       <div class="form__header">
          <back-link name="login"></back-link>
          <h3 class="form__header--title">Forget Password?</h3>

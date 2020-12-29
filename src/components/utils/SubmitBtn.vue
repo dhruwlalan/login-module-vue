@@ -1,5 +1,5 @@
 <template>
-   <button class="btn btn__signup" type="submit">
+   <button class="btn">
       <slot v-if="notSubmited"></slot>
       <span v-else-if="spinner" class="spinner-white" />
       <span v-else-if="success">&#10003;</span>

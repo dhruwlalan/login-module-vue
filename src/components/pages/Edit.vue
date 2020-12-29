@@ -2,7 +2,7 @@
    <the-navbar page="edit"></the-navbar>
    <hori-pipes></hori-pipes>
    <div class="section section--edit">
-      <form class="form form--edit--data" autocomplete="off">
+      <form class="form form--edit" autocomplete="off">
          <h3 class="form__header--midtitle">Update Your Profile</h3>
          <div class="form__body">
             <fgi-name v-model="fullName" @status="getFullNameStatus" />
@@ -43,7 +43,7 @@
    </div>
    <hori-pipes></hori-pipes>
    <div class="section section--edit">
-      <form class="form form--edit--data" autocomplete="off">
+      <form class="form form--edit" autocomplete="off">
          <h3 class="form__header--midtitle">Update Your Email</h3>
          <div class="form__body">
             <fgi-email v-model="email" @status="getEmailStatus" />
@@ -56,7 +56,7 @@
    </div>
    <hori-pipes></hori-pipes>
    <div class="section section--edit">
-      <form class="form form--edit--pass" autocomplete="off">
+      <form class="form form--edit" autocomplete="off">
          <h3 class="form__header--midtitle">Change Your Password.</h3>
          <div class="form__body">
             <fgi-pass name="curPass" v-model="curPass" @status="getCurPassStatus" />

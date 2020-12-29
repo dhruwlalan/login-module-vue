@@ -1,69 +1,70 @@
 @use "../abstracts" as *;
-@use "../abstracts/placeholder" as *;
 
 .home {
-	&__title {
-		@include typo( $c: $pri-blue , $ff: $roboto , $fs: 4rem , $fw: 400 , $ta: center , );
-		@include pbm( $mb: 1rem , );
-		@extend %disable-selection;
-	}
-	&__profile {
-		@extend %flex-center;
-		@extend %disable-selection;
+   &__title {
+      @include typo($c: $pri-blue, $ff: $roboto, $fs: 4rem, $fw: 400, $ta: center);
+      @include pbm($mb: 1rem);
+      @include disable-selection;
+   }
+   &__profile {
+      @include flex($jc: center, $ai: center);
+      @include disable-selection;
 
-		&--img {
-			@include size( $h: 5rem , $w: 5rem , );
-			@include pbm( $mr: 1rem , $rad: 50% , );
-		}
-		&--name {
-			@include typo( $c: $pri-blue , $ff: $roboto , $fs: 4rem , $fw: 400 , $ta: center , );
-		}
-	}
-	&__details {
-		@include typo( $ff: $roboto , $fs: 2rem , );
+      &--img {
+         @include size($h: 5rem, $w: 5rem);
+         @include pbm($mr: 1rem, $rad: 50%);
+      }
+      &--name {
+         @include typo($c: $pri-blue, $ff: $roboto, $fs: 4rem, $fw: 400, $ta: center);
+      }
+   }
+   &__details {
+      @include typo($ff: $roboto, $fs: 2rem);
 
-		&__heading {
-			@include size( $h: 100% , $w: 100% , );
-			@extend %blue-bgc;
-			@include typo( $c: $white , $fw: 500 , );
-			@include pbm( $rad: 2rem , $pr: 1rem , );
-			@extend %flex-center;
-			@extend %disable-selection;
-		}
-		&__row {
-			@include size( $h: 3.5rem , $w: 100% , );
-			@include flex( $ai: center , );
-			&:not(:last-child) { margin-bottom: 2rem; }
-		}
-		&--key {
-			@include size( $h: 100% , $w: 18rem , );
-			@extend %blue-bgc;
-			@include typo( $c: $white , $fw: 500 , );
-			@include pbm( $rad: 2rem 0 0 2rem , $pr: 1rem , );
-			@include flex( $jc: flex-end , $ai: center , );
-			@extend %disable-selection;
+      &__heading {
+         @include size($h: 100%, $w: 100%);
+         @include bg($c: $background);
+         @include typo($c: $white, $fw: 500);
+         @include pbm($rad: 2rem, $pr: 1rem);
+         @include flex($jc: center, $ai: center);
+         @include disable-selection;
+      }
+      &__row {
+         @include size($h: 3.5rem, $w: 100%);
+         @include flex($ai: center);
+         &:not(:last-child) {
+            margin-bottom: 2rem;
+         }
+      }
+      &--key {
+         @include size($h: 100%, $w: 18rem);
+         @include bg($c: $pri-blue);
+         @include typo($c: $white, $fw: 500);
+         @include pbm($rad: 2rem 0 0 2rem, $pr: 1rem);
+         @include flex($jc: flex-end, $ai: center);
+         @include disable-selection;
 
-			@media (max-width: 550px) {
-				@include typo( $fs: 1.6rem , $fw: 400 , );
-				@include size( $w: 12rem , );
-			}
-			@media (max-width: 450px) {
-				@include size( $w: 10rem , );
-			}
-		}
-		&--value {
-			@include size( $h: 100% , );
-			@include typo( $c: $pri-blue , $fw: 500 , );
-			@include pbm( $b: 1px solid $pri-blue , $rad: 0 2rem 2rem 0 , $p: 0 1rem , );
-			@include flex( $jc: flex-start , $ai: center , );
-			@include flex-item( $grow: 1 , );
-			
-			@media (max-width: 550px) {
-				@include typo( $fs: 1.6rem , $fw: 400 , );
-			}
-			@media (max-width: 450px) {
-				overflow-x: scroll;
-			}
-		}
-	}
+         @media (max-width: 550px) {
+            @include typo($fs: 1.6rem, $fw: 400);
+            @include size($w: 12rem);
+         }
+         @media (max-width: 450px) {
+            @include size($w: 10rem);
+         }
+      }
+      &--value {
+         @include size($h: 100%);
+         @include typo($c: $pri-blue, $fw: 500);
+         @include pbm($b: 1px solid $pri-blue, $rad: 0 2rem 2rem 0, $p: 0 1rem);
+         @include flex($jc: flex-start, $ai: center);
+         @include flex-item($grow: 1);
+
+         @media (max-width: 550px) {
+            @include typo($fs: 1.6rem, $fw: 400);
+         }
+         @media (max-width: 450px) {
+            overflow-x: scroll;
+         }
+      }
+   }
 }

@@ -1,6 +1,6 @@
 <template>
    <div
-      class="form__group form__group--name"
+      class="form__group"
       @mouseenter="mouseEnter"
       @mouseleave="mouseLeave"
       :class="groupState"
