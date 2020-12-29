@@ -29,6 +29,7 @@ module.exports = {
       overlay: true,
       inline: true,
       hot: true,
+      port: 8000,
       clientLogLevel: 'silent',
    },
    plugins: [

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { auth } from '../firebase';
 
 import Home from '../components/pages/Home.vue';
 import Edit from '../components/pages/Edit.vue';
@@ -63,6 +64,18 @@ const Router = createRouter({
          props: true,
       },
    ],
+});
+
+Router.beforeEach((to, _from, next) => {
+   if (to.matched.some((record) => record.meta.isOpenRoute)) {
+      if (!auth.currentUser) {
+         next();
+      } else {
+         next({ name: 'home' });
+      }
+   } else {
+      next();
+   }
 });
 
 export default Router;

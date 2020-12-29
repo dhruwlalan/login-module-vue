@@ -1,24 +1,17 @@
 @use "../abstracts" as *;
 
-@keyframes spin {
-   0% {
-      transform: rotate(0deg);
-   }
-   100% {
-      transform: rotate(360deg);
-   }
-}
-
-.spinner {
+.spinner-white {
    @include size($h: 2rem, $w: 2rem);
    @include pbm($rad: 50%, $b: 2px solid $white, $bb: 2px solid transparent);
    animation: spin 1s linear infinite;
 }
-
-.loader {
+.spinner-blue {
    @include size($h: 2rem, $w: 2rem);
+   @include pbm($rad: 50%, $b: 2px solid $pri-blue, $bb: 2px solid transparent);
+   animation: spin 1s linear infinite;
+}
+
+.pre-loader {
    @include pos-fixed($t: 2rem, $l: 50%);
-   @include pbm($rad: 50%, $b: 2px solid $white, $bb: 2px solid transparent);
    transform: translateY(-50%);
-   animation: spin 1s linear infinite;
 }
