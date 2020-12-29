@@ -69,9 +69,6 @@ export default {
       closePhoto() {
          this.viewProfilePhoto = false;
       },
-      logout() {
-         this.$store.dispatch('logout');
-      },
    },
 };
 </script>

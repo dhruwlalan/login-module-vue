@@ -41,25 +41,21 @@ export default {
             this.showAlert('error', 'Please enter a valid email address.');
          } else {
             this.btnStatus = 'submited';
-            this.$store
-               .dispatch('forgetPassword', {
-                  email: this.email,
-               })
-               .then((res) => {
-                  if (res === 'success') {
-                     this.btnStatus = 'success';
-                     this.showAlert('success', 'Link sent to email successfully!');
-                     setTimeout(() => {
-                        this.$router.push({ name: 'login' });
-                     }, 1000);
-                  } else {
-                     this.btnStatus = 'error';
-                     this.showAlert('error', res);
-                     setTimeout(() => {
-                        this.btnStatus = 'not-submited';
-                     }, 1000);
-                  }
-               });
+            this.$store.dispatch('forgetPassword', this.email).then((res) => {
+               if (res === 'success') {
+                  this.btnStatus = 'success';
+                  this.showAlert('success', 'Link sent to email successfully!');
+                  setTimeout(() => {
+                     this.$router.push({ name: 'login' });
+                  }, 1000);
+               } else {
+                  this.btnStatus = 'error';
+                  this.showAlert('error', res);
+                  setTimeout(() => {
+                     this.btnStatus = 'not-submited';
+                  }, 1000);
+               }
+            });
          }
       },
       showAlert(type, msg) {

@@ -141,7 +141,7 @@ export default {
             const errorMsg = [];
             allPromises.push(this.$store.dispatch('updateProfile', { fullName: this.fullName }));
             if (this.isDefaultPic) {
-               allPromises.push(this.$store.dispatch('updateProfile', { photoUrl: this.photoUrl }));
+               allPromises.push(this.$store.dispatch('updateProfile', { photoURL: this.photoUrl }));
             } else if (this.newProfile) {
                allPromises.push(this.$store.dispatch('uploadNewProfilePic', this.newProfile));
             }

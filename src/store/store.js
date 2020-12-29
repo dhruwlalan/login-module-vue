@@ -5,8 +5,6 @@ const Store = createStore({
    state() {
       return {
          user: null,
-         defaultPhotoUrl:
-            'https://firebasestorage.googleapis.com/v0/b/login-module-vue.appspot.com/o/default.png?alt=media&token=ac9c3618-ab29-42b5-8fc4-54d31cbe68a2',
          alert: {
             showAlert: false,
             type: 'success',
@@ -16,7 +14,16 @@ const Store = createStore({
    },
    mutations: {
       storeUser(state) {
-         state.user = auth.currentUser;
+         if (auth.currentUser) {
+            state.user = {
+               uid: auth.currentUser.uid,
+               email: auth.currentUser.email,
+               displayName: auth.currentUser.displayName,
+               photoURL: auth.currentUser.photoURL,
+            };
+         } else {
+            state.user = null;
+         }
       },
       showAlert(state, { type, msg }) {
          state.alert.showAlert = true;
@@ -28,27 +35,27 @@ const Store = createStore({
       },
    },
    getters: {
-      user(store) {
-         return store.user;
+      user(state) {
+         return state.user;
       },
-      defaultPhotoUrl(store) {
-         return store.defaultPhotoUrl;
+      defaultPhotoUrl() {
+         return 'https://firebasestorage.googleapis.com/v0/b/login-module-vue.appspot.com/o/default.png?alt=media&token=ac9c3618-ab29-42b5-8fc4-54d31cbe68a2';
       },
-      alert(store) {
+      alert(state) {
          return {
-            alert: store.alert.showAlert,
-            type: store.alert.type,
-            msg: store.alert.msg,
+            alert: state.alert.showAlert,
+            type: state.alert.type,
+            msg: state.alert.msg,
          };
       },
    },
    actions: {
-      async register(context, { fullName, email, password }) {
+      async signup(context, { fullName, email, password }) {
          try {
             const { user } = await auth.createUserWithEmailAndPassword(email, password);
             await user.updateProfile({
                displayName: fullName,
-               photoURL: context.getters.defaultPhotoUrl,
+               photoURL: context.getters.defaultPhotoURL,
             });
             context.commit('storeUser');
             return 'success';
@@ -76,7 +83,7 @@ const Store = createStore({
          context.commit('storeUser');
       },
 
-      async forgetPassword(_context, { email }) {
+      async forgetPassword(_context, email) {
          try {
             await auth.sendPasswordResetEmail(email);
             return 'success';
@@ -97,30 +104,29 @@ const Store = createStore({
             await auth.confirmPasswordReset(actionCode, newPassword);
             return 'success';
          } catch (error) {
-            return 'Error occurred during confirmation';
+            return 'Something went wrong!';
          }
       },
 
-      async reAuthenticateUser(_context, password) {
+      async _reAuthenticateUser(_context, password) {
          try {
             const user = auth.currentUser;
             const credentials = fb.auth.EmailAuthProvider.credential(user.email, password);
             await user.reauthenticateWithCredential(credentials);
             return 'success';
          } catch (error) {
-            console.log(error.code);
             return error.code;
          }
       },
       async updateEmail(context, { newEmail, password }) {
          const user = auth.currentUser;
-         const res = await context.dispatch('reAuthenticateUser', password);
+         const res = await context.dispatch('_reAuthenticateUser', password);
          if (res === 'success') {
             try {
                await user.updateEmail(newEmail);
                return 'success';
             } catch (error) {
-               return error.code;
+               return error.message;
             }
          } else {
             if (res === 'auth/wrong-password') {
@@ -129,18 +135,18 @@ const Store = createStore({
             if (res === 'auth/too-many-requests') {
                return 'Please try after some time!';
             }
-            return 'something went wrong!';
+            return 'Something went wrong!';
          }
       },
       async updatePassword(context, { curPass, newPass }) {
          const user = auth.currentUser;
-         const res = await context.dispatch('reAuthenticateUser', curPass);
+         const res = await context.dispatch('_reAuthenticateUser', curPass);
          if (res === 'success') {
             try {
                await user.updatePassword(newPass);
                return 'success';
             } catch (error) {
-               return error.code;
+               return error.message;
             }
          } else {
             if (res === 'auth/wrong-password') {
@@ -152,52 +158,53 @@ const Store = createStore({
             return 'something went wrong!';
          }
       },
-      async updateProfile(_context, { fullName, photoUrl }) {
+
+      async updateProfile(_context, { fullName, photoURL }) {
          try {
-            const user = await auth.currentUser;
+            const user = auth.currentUser;
             if (fullName) {
                await user.updateProfile({
                   displayName: fullName,
                });
             }
-            if (photoUrl) {
+            if (photoURL) {
                await user.updateProfile({
-                  photoURL: photoUrl,
+                  photoURL,
                });
             }
             return 'success';
          } catch (error) {
-            return error.code;
+            return error.message;
+         }
+      },
+      async uploadNewProfilePic(context, newPhoto) {
+         try {
+            const user = auth.currentUser;
+            const ext = newPhoto.name.split('.').pop();
+            const name = `${user.uid}-photo.${ext}`;
+            const snapshot = await storageRef.child(name).put(newPhoto, {
+               contentType: 'image/jpeg',
+            });
+            const photoURL = await snapshot.ref.getDownloadURL();
+            await user.updateProfile({
+               photoURL,
+            });
+            context.commit('storeUser');
+            return 'success';
+         } catch (error) {
+            return error.message;
          }
       },
 
-      async uploadNewProfilePic(_context, photo) {
-         try {
-            const user = await auth.currentUser;
-            const extAr = photo.name.split('.');
-            const ext = extAr[extAr.length - 1];
-            const name = `${user.uid}.${ext}`;
-            const metadata = {
-               contentType: photo.type,
-            };
-            const snapshot = await storageRef.child(name).put(photo, metadata);
-            const url = await snapshot.ref.getDownloadURL();
-            await user.updateProfile({
-               photoURL: url,
-            });
-            return 'success';
-         } catch (error) {
-            return error.code;
-         }
-      },
-      showAlert(context, { type, msg }) {
+      showAlert(context, { type, msg, length }) {
+         length = length ?? 1000;
          context.commit('showAlert', {
             type,
             msg,
          });
          setTimeout(() => {
             context.commit('hideAlert');
-         }, 1000);
+         }, length);
       },
    },
 });

@@ -69,7 +69,7 @@ export default {
       },
       signup() {
          this.$store
-            .dispatch('register', {
+            .dispatch('signup', {
                fullName: this.fullName,
                email: this.email,
                password: this.password,
