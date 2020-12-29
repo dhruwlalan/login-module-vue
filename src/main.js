@@ -1,4 +1,4 @@
-import './sass/main.scss';
+import './assets/assets';
 import { createApp } from 'vue';
 import { auth } from './firebase';
 import Router from './routes/Router';
