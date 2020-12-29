@@ -259,12 +259,23 @@ export default {
       },
       onCropped(cropImageUrl) {
          this.photoUrl = cropImageUrl.base64;
-         this.newProfile = cropImageUrl.blob;
+         this.newProfile = cropImageUrl.photo;
       },
    },
    computed: {
       isDefaultPic() {
          return this.photoUrl === this.$store.getters.defaultPhotoUrl;
+      },
+   },
+   watch: {
+      openImageCropModal() {
+         if (this.openImageCropModal === true) {
+            document.body.style.overflowY = 'hidden';
+         } else {
+            setTimeout(() => {
+               document.body.removeAttribute('style');
+            }, 600);
+         }
       },
    },
 };

@@ -1,29 +1,22 @@
 import './sass/main.scss';
-
-import { createRouter } from 'vue-router';
-import { createStore } from 'vuex';
 import { createApp } from 'vue';
-
-import Router from './routes/router';
-import Store from './store/store';
-import App from './App.vue';
 import { auth } from './firebase';
+import Router from './routes/Router';
+import Store from './store/Store';
+import App from './App.vue';
 
-const router = createRouter(Router);
-const store = createStore(Store);
 let app;
-
 auth.onAuthStateChanged((user) => {
-   if (user) store.commit('storeUser', user);
+   if (user) Store.commit('storeUser', user);
    if (!app) {
       app = createApp(App);
-      app.use(router);
-      app.use(store);
+      app.use(Router);
+      app.use(Store);
       app.mount('#app');
    }
 });
 
-router.beforeEach((to, _from, next) => {
+Router.beforeEach((to, _from, next) => {
    if (to.matched.some((record) => record.meta.isOpenRoute)) {
       if (!auth.currentUser) {
          next();
@@ -33,4 +26,11 @@ router.beforeEach((to, _from, next) => {
    } else {
       next();
    }
+});
+
+const loader = document.getElementById('pre-loader');
+window.addEventListener('load', () => {
+   setTimeout(() => {
+      loader.remove();
+   }, 800);
 });
