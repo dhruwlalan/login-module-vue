@@ -12,10 +12,5 @@ export default {
    components: {
       AlertBox,
    },
-   data() {
-      return {
-         loaded: false,
-      };
-   },
 };
 </script>

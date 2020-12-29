@@ -2,38 +2,30 @@
 @use "../abstracts/placeholder" as *;
 
 .alert {
-	@include size( $w: 40rem , );
-	@include pos-fixed( $t: 0 , $l: 0 , $r: 0 , $z: 100 , );
-	@include pbm( $m: 0 auto , $rad: 0 0 1rem 1rem , $p: 2rem 1rem , );
-	@include typo( $ff: $roboto , $fs: 1.6rem , $fw: 500 , $ta: center , );
-	@extend %disable-selection;
-	box-shadow: 0 0 4rem 1rem rgb(0 0 0 / 25%);
+   @include size($w: 40rem);
+   @include pos-fixed($t: 0, $l: 50%, $z: 100);
+   @include pbm($rad: 0 0 1rem 1rem, $p: 2rem 1rem);
+   @include typo($ff: $roboto, $fs: 1.6rem, $fw: 500, $ta: center);
+   @extend %disable-selection;
+   transform: translateX(-50%);
+   box-shadow: 0 0 4rem 1rem rgb(0 0 0 / 25%);
 
-	@media (max-width: 450px) {
-		@include size( $w: 30rem , );
-	}
+   @media (max-width: 450px) {
+      @include size($w: 30rem);
+   }
 
-	&--success {
-		color: $success-c;
-		background-color: $success-bc;
-	}
-	&--error {
-		color: $error-c;
-		background-color: $error-bc;
-	}
-}
-
-@keyframes slideInDown {
-	from { transform: translate3d(0, -100%, 0); visibility: visible; }
-	to { transform: translate3d(0, 0, 0); }
-}
-@keyframes slideOutUp {
-  from { transform: translate3d(0, 0, 0); }
-  to { visibility: hidden; transform: translate3d(0, -100%, 0); }
+   &--success {
+      color: $success-c;
+      background-color: $success-bc;
+   }
+   &--error {
+      color: $error-c;
+      background-color: $error-bc;
+   }
 }
 .slideInDown {
-	animation: slideInDown .5s ease both;
+   animation: slideInDown 0.5s;
 }
 .slideOutUp {
-	animation: slideOutUp .3s ease-in both;
+   animation: slideOutUp 0.5s;
 }

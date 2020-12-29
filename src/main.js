@@ -1,8 +1,8 @@
 import './sass/main.scss';
 import { createApp } from 'vue';
 import { auth } from './firebase';
-import Router from './routes/router';
-import Store from './store/store';
+import Router from './routes/Router';
+import Store from './store/Store';
 import App from './App.vue';
 
 let app;
@@ -28,7 +28,7 @@ Router.beforeEach((to, _from, next) => {
    }
 });
 
-const loader = document.getElementById('loader');
+const loader = document.getElementById('pre-loader');
 window.addEventListener('load', () => {
    setTimeout(() => {
       loader.remove();
