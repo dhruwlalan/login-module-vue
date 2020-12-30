@@ -7,7 +7,9 @@
       </div>
       <div class="form__body">
          <fgi-email v-model="email" @status="getEmailStatus" />
-         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Send Reset Link</submit-btn>
+         <submit-btn :btnStatus="submitBtnStatus" @click.prevent="submit">
+            Send Reset Link
+         </submit-btn>
       </div>
    </form>
 </template>
@@ -27,7 +29,7 @@ export default {
       return {
          email: '',
          emailStatus: '',
-         btnStatus: 'not-submited',
+         submitBtnStatus: 'not-submitted',
       };
    },
    methods: {
@@ -40,19 +42,19 @@ export default {
          } else if (this.emailStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Please enter a valid email address.');
          } else {
-            this.btnStatus = 'submited';
+            this.submitBtnStatus = 'submitted';
             this.$store.dispatch('forgetPassword', this.email).then((res) => {
                if (res === 'success') {
-                  this.btnStatus = 'success';
                   this.showAlert('success', 'Link sent to email successfully!');
+                  this.submitBtnStatus = 'success';
                   setTimeout(() => {
                      this.$router.push({ name: 'login' });
                   }, 1000);
                } else {
-                  this.btnStatus = 'error';
                   this.showAlert('error', res);
+                  this.submitBtnStatus = 'error';
                   setTimeout(() => {
-                     this.btnStatus = 'not-submited';
+                     this.submitBtnStatus = 'not-submitted';
                   }, 1000);
                }
             });

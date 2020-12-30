@@ -1,11 +1,6 @@
 <template>
    <nav class="navbar">
-      <div
-         class="navbar__link"
-         id="edit"
-         v-if="page === 'home'"
-         @click="$router.push({ name: 'edit' })"
-      >
+      <div class="navbar__link" id="edit" v-if="isHomePage" @click="gotoEdit">
          <div class="navbar__link--svgbox">
             <svg
                class="navbar__link--svg"
@@ -26,12 +21,7 @@
          </div>
          <div class="navbar__link--text">Edit</div>
       </div>
-      <div
-         class="navbar__link"
-         id="home"
-         v-if="page === 'edit'"
-         @click="$router.push({ name: 'home' })"
-      >
+      <div class="navbar__link" id="home" v-if="isEditPage" @click="gotoHome">
          <div class="navbar__link--svgbox">
             <svg
                class="navbar__link--svg"
@@ -89,10 +79,24 @@
 export default {
    props: ['page'],
    methods: {
+      gotoHome() {
+         this.$router.push({ name: 'home' });
+      },
+      gotoEdit() {
+         this.$router.push({ name: 'edit' });
+      },
       logout() {
          this.$store.dispatch('logout').then(() => {
             this.$router.push({ name: 'home' });
          });
+      },
+   },
+   computed: {
+      isHomePage() {
+         return this.page === 'home';
+      },
+      isEditPage() {
+         return this.page === 'edit';
       },
    },
 };

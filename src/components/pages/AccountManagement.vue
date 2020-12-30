@@ -21,7 +21,9 @@
       </div>
       <div class="form__body">
          <fgi-pass name="newPass" v-model="newPass" @status="getNewPassStatus" />
-         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Reset Password</submit-btn>
+         <submit-btn :btnStatus="submitBtnStatus" @click.prevent="submit">
+            Reset Password
+         </submit-btn>
       </div>
    </form>
 </template>
@@ -43,7 +45,7 @@ export default {
          accountEmail: '',
          isInvalidCode: false,
          showForm: false,
-         btnStatus: 'not-submited',
+         submitBtnStatus: 'not-submitted',
       };
    },
    methods: {
@@ -56,24 +58,24 @@ export default {
          } else if (this.newPassStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Password should be at least 8 characters long.');
          } else {
-            this.btnStatus = 'submited';
+            this.submitBtnStatus = 'submitted';
             this.$store
                .dispatch('confirmPasswordReset', {
                   actionCode: this.actionCode,
-                  newPassword: this.newPass,
+                  newPass: this.newPass,
                })
                .then((res) => {
                   if (res === 'success') {
-                     this.btnStatus = 'success';
+                     this.submitBtnStatus = 'success';
                      this.showAlert('success', 'Password Reseted Successfully!');
                      setTimeout(() => {
                         this.$router.push({ name: 'login' });
                      }, 1000);
                   } else {
-                     this.btnStatus = 'error';
+                     this.submitBtnStatus = 'error';
                      this.showAlert('error', res);
                      setTimeout(() => {
-                        this.btnStatus = 'not-submited';
+                        this.submitBtnStatus = 'not-submitted';
                      }, 1000);
                   }
                });
