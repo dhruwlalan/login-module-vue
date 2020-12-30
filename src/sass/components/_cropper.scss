@@ -11,7 +11,8 @@
    &__container {
       position: fixed;
       top: 5rem;
-      margin: 0 auto;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 200;
       border-radius: 5px;
       display: flex;
@@ -47,6 +48,12 @@
       &--canvas {
          width: 400px;
          height: 400px;
+
+         @media (max-width: 550px) {
+            height: 90vw;
+            width: 90vw;
+         }
+
          &--img {
             display: block;
             max-width: 100%;
