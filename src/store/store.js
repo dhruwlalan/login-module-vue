@@ -38,7 +38,7 @@ const Store = createStore({
       user(state) {
          return state.user;
       },
-      defaultPhotoUrl() {
+      defaultPhotoURL() {
          return 'https://firebasestorage.googleapis.com/v0/b/login-module-vue.appspot.com/o/default.png?alt=media&token=ac9c3618-ab29-42b5-8fc4-54d31cbe68a2';
       },
       alert(state) {
@@ -124,6 +124,7 @@ const Store = createStore({
          if (res === 'success') {
             try {
                await user.updateEmail(newEmail);
+               context.commit('storeUser');
                return 'success';
             } catch (error) {
                return error.message;
@@ -144,6 +145,7 @@ const Store = createStore({
          if (res === 'success') {
             try {
                await user.updatePassword(newPass);
+               context.commit('storeUser');
                return 'success';
             } catch (error) {
                return error.message;
@@ -159,7 +161,7 @@ const Store = createStore({
          }
       },
 
-      async updateProfile(_context, { fullName, photoURL }) {
+      async updateProfile(context, { fullName, photoURL }) {
          try {
             const user = auth.currentUser;
             if (fullName) {
@@ -168,10 +170,12 @@ const Store = createStore({
                });
             }
             if (photoURL) {
+               console.log('here2');
                await user.updateProfile({
                   photoURL,
                });
             }
+            context.commit('storeUser');
             return 'success';
          } catch (error) {
             return error.message;

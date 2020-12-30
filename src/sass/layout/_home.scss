@@ -81,6 +81,13 @@
    @include pos-absolute($z: 99);
    transform: translateY(58px);
 
+   @media (max-width: 550px) {
+      @include size($h: 80vw, $w: 80vw);
+   }
+   @media (max-width: 450px) {
+      @include size($h: 90vw, $w: 90vw);
+   }
+
    &-backdrop {
       @include size($h: -webkit-fill-available, $w: 100vw);
       @include size($h: stretch);
