@@ -2,20 +2,20 @@
    <the-navbar page="edit"></the-navbar>
    <hori-pipes></hori-pipes>
    <div class="section section--edit">
-      <form class="form form--edit--data" autocomplete="off">
+      <form class="form form--edit" autocomplete="off">
          <h3 class="form__header--midtitle">Update Your Profile</h3>
          <div class="form__body">
             <fgi-name v-model="fullName" @status="getFullNameStatus" />
-            <image-crop v-model="openImageCropModal" :img="cropUrl" @cropped="onCropped" />
+            <image-crop v-model="openImageCropModal" :img="newPhotoDataUrl" @cropped="onCropped" />
             <div class="form__group__profile">
-               <img class="form__group__profile--preview" id="uploadImagePreview" :src="photoUrl" />
+               <img class="form__group__profile--preview" id="uploadImagePreview" :src="photoURL" />
                <input
                   class="form__group__profile--input"
                   id="uploadImageInput"
                   type="file"
                   accept="image/*"
                   name="photo"
-                  @change="previewImage"
+                  @change="getNewPhotoFromUser"
                   ref="uploadImageInput"
                />
                <div class="form__group__profile--links">
@@ -43,7 +43,7 @@
    </div>
    <hori-pipes></hori-pipes>
    <div class="section section--edit">
-      <form class="form form--edit--data" autocomplete="off">
+      <form class="form form--edit" autocomplete="off">
          <h3 class="form__header--midtitle">Update Your Email</h3>
          <div class="form__body">
             <fgi-email v-model="email" @status="getEmailStatus" />
@@ -56,7 +56,7 @@
    </div>
    <hori-pipes></hori-pipes>
    <div class="section section--edit">
-      <form class="form form--edit--pass" autocomplete="off">
+      <form class="form form--edit" autocomplete="off">
          <h3 class="form__header--midtitle">Change Your Password.</h3>
          <div class="form__body">
             <fgi-pass name="curPass" v-model="curPass" @status="getCurPassStatus" />
@@ -90,11 +90,9 @@ export default {
    },
    data() {
       return {
-         img: 'https://images.pexels.com/photos/226746/pexels-photo-226746.jpeg',
          fullName: this.$store.getters.user.displayName,
          email: this.$store.getters.user.email,
-         photoUrl: this.$store.getters.user.photoURL,
-         newProfile: '',
+         photoURL: this.$store.getters.user.photoURL,
          pass: '',
          curPass: '',
          newPass: '',
@@ -103,11 +101,12 @@ export default {
          passStatus: '',
          curPassStatus: '',
          newPassStatus: '',
-         updateProfileBtnStatus: 'not-submited',
-         updateEmailBtnStatus: 'not-submited',
-         changePassBtnStatus: 'not-submited',
-         cropUrl: '',
+         updateProfileBtnStatus: 'not-submitted',
+         updateEmailBtnStatus: 'not-submitted',
+         changePassBtnStatus: 'not-submitted',
          openImageCropModal: false,
+         newPhotoDataUrl: null,
+         newPhotoFile: null,
       };
    },
    methods: {
@@ -135,15 +134,15 @@ export default {
          } else if (this.emailStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Please enter a valid email address.');
          } else {
-            this.updateProfileBtnStatus = 'submited';
+            this.updateProfileBtnStatus = 'submitted';
             const allPromises = [];
             let allSuccess = true;
             const errorMsg = [];
             allPromises.push(this.$store.dispatch('updateProfile', { fullName: this.fullName }));
             if (this.isDefaultPic) {
-               allPromises.push(this.$store.dispatch('updateProfile', { photoUrl: this.photoUrl }));
-            } else if (this.newProfile) {
-               allPromises.push(this.$store.dispatch('uploadNewProfilePic', this.newProfile));
+               allPromises.push(this.$store.dispatch('updateProfile', { photoURL: this.photoURL }));
+            } else if (this.newPhotoFile) {
+               allPromises.push(this.$store.dispatch('uploadNewProfilePic', this.newPhotoFile));
             }
             Promise.all(allPromises).then((values) => {
                values.forEach((element) => {
@@ -153,16 +152,16 @@ export default {
                   }
                });
                if (allSuccess) {
-                  this.updateProfileBtnStatus = 'success';
                   this.showAlert('success', 'Profile Updated Successfully!');
+                  this.updateProfileBtnStatus = 'success';
                   setTimeout(() => {
-                     this.updateProfileBtnStatus = 'not-submited';
+                     this.updateProfileBtnStatus = 'not-submitted';
                   }, 1000);
                } else {
-                  this.updateProfileBtnStatus = 'error';
                   this.showAlert('error', errorMsg[0]);
+                  this.updateProfileBtnStatus = 'error';
                   setTimeout(() => {
-                     this.updateProfileBtnStatus = 'not-submited';
+                     this.updateProfileBtnStatus = 'not-submitted';
                   }, 1000);
                }
             });
@@ -178,26 +177,26 @@ export default {
          } else if (this.passStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Please enter your correct current password');
          } else {
-            this.updateEmailBtnStatus = 'submited';
+            this.updateEmailBtnStatus = 'submitted';
             this.$store
                .dispatch('updateEmail', {
                   newEmail: this.email,
-                  password: this.pass,
+                  pass: this.pass,
                })
                .then((res) => {
                   if (res === 'success') {
+                     this.showAlert('success', 'Email Updated Successfully!');
                      this.updateEmailBtnStatus = 'success';
                      this.pass = '';
-                     this.showAlert('success', 'Email Updated Successfully!');
                      setTimeout(() => {
-                        this.updateEmailBtnStatus = 'not-submited';
+                        this.updateEmailBtnStatus = 'not-submitted';
                      }, 1000);
                   } else {
+                     this.showAlert('error', res);
                      this.updateEmailBtnStatus = 'error';
                      this.pass = '';
-                     this.showAlert('error', res);
                      setTimeout(() => {
-                        this.updateEmailBtnStatus = 'not-submited';
+                        this.updateEmailBtnStatus = 'not-submitted';
                      }, 1000);
                   }
                });
@@ -213,7 +212,7 @@ export default {
          } else if (this.newPassStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Please enter a valid new password.');
          } else {
-            this.changePassBtnStatus = 'submited';
+            this.changePassBtnStatus = 'submitted';
             this.$store
                .dispatch('updatePassword', {
                   curPass: this.curPass,
@@ -221,50 +220,53 @@ export default {
                })
                .then((res) => {
                   if (res === 'success') {
+                     this.showAlert('success', 'Password Updated Successfully!');
                      this.changePassBtnStatus = 'success';
                      this.curPass = '';
                      this.newPass = '';
-                     this.showAlert('success', 'Password Updated Successfully!');
                      setTimeout(() => {
-                        this.changePassBtnStatus = 'not-submited';
+                        this.changePassBtnStatus = 'not-submitted';
                      }, 1000);
                   } else {
+                     this.showAlert('error', res);
                      this.changePassBtnStatus = 'error';
                      this.curPass = '';
                      this.newPass = '';
-                     this.showAlert('error', res);
                      setTimeout(() => {
-                        this.changePassBtnStatus = 'not-submited';
+                        this.changePassBtnStatus = 'not-submitted';
                      }, 1000);
                   }
                });
          }
       },
 
-      showAlert(type, msg) {
-         this.$store.dispatch('showAlert', { type, msg });
-      },
-      previewImage() {
+      getNewPhotoFromUser() {
          const photo = this.$refs.uploadImageInput.files[0];
          const reader = new FileReader();
          reader.readAsDataURL(photo);
          reader.onload = (e) => {
-            this.cropUrl = e.target.result;
+            this.newPhotoDataUrl = e.target.result;
             this.$refs.uploadImageInput.value = '';
             this.openImageCropModal = true;
          };
       },
-      setProfilePicToDefault() {
-         this.photoUrl = this.$store.getters.defaultPhotoUrl;
-      },
       onCropped(cropImageUrl) {
-         this.photoUrl = cropImageUrl.base64;
-         this.newProfile = cropImageUrl.photo;
+         this.newPhotoDataUrl = null;
+         this.photoURL = cropImageUrl.base64;
+         this.newPhotoFile = cropImageUrl.photo;
+      },
+      setProfilePicToDefault() {
+         this.photoURL = this.$store.getters.defaultPhotoURL;
+         this.newPhotoDataUrl = null;
+         this.newPhotoFile = null;
+      },
+      showAlert(type, msg) {
+         this.$store.dispatch('showAlert', { type, msg });
       },
    },
    computed: {
       isDefaultPic() {
-         return this.photoUrl === this.$store.getters.defaultPhotoUrl;
+         return this.photoURL === this.$store.getters.defaultPhotoURL;
       },
    },
    watch: {

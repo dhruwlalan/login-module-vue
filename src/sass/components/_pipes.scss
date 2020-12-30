@@ -1,32 +1,35 @@
 @use "../abstracts" as *;
-@use "../abstracts/placeholder" as *;
 
 .pipes {
-	@include size( $h: 2rem , $w: 100% , );
-	@include pos-relative();
+   @include size($h: 2rem, $w: 100%);
+   @include pos-relative();
 
-	@media (max-width: 550px) {
-		@include size( $h: 1rem );
-	}
+   @media (max-width: 550px) {
+      @include size($h: 1rem);
+   }
 
-	&__pipe {
-		@include size( $h: 3rem , $w: 1rem , );
-		@extend %white-bgc;
-		@include pos-absolute( $t: 0 , );
-		@include pbm( $rad: 50px , );
-		transform: translateY( -5px );
+   &__pipe {
+      @include size($h: 3rem, $w: 1rem);
+      @include bg($c: $background);
+      @include pos-absolute($t: 0);
+      @include pbm($rad: 50px);
+      transform: translateY(-5px);
 
-		@media (max-width: 550px) { 
-			@include size( $h: 2rem , $w: 8px , );
-		}
+      @media (max-width: 550px) {
+         @include size($h: 2rem, $w: 8px);
+      }
 
-		&--left {
-			left: 10rem;
-			@media (max-width: 550px) { left: 5rem; }
-		}
-		&--right {
-			right: 10rem;
-			@media (max-width: 550px) { right: 5rem; }
-		}
-	}
+      &--left {
+         left: 10rem;
+         @media (max-width: 550px) {
+            left: 5rem;
+         }
+      }
+      &--right {
+         right: 10rem;
+         @media (max-width: 550px) {
+            right: 5rem;
+         }
+      }
+   }
 }

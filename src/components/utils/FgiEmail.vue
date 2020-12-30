@@ -1,6 +1,6 @@
 <template>
    <div
-      class="form__group form__group--name"
+      class="form__group"
       @mouseenter="mouseEnter"
       @mouseleave="mouseLeave"
       :class="groupState"
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import validator from 'validator';
+const validator = require('email-validator');
 
 export default {
    props: ['modelValue'],
@@ -56,19 +56,19 @@ export default {
       mouseLeave() {
          this.shouldHover = false;
       },
-      async updateEmail(e) {
-         await this.$emit('update:modelValue', e.target.value);
-         this.updateStatus();
-      },
       updateStatus() {
          if (this.modelValue.length === 0) {
             this.status = 'notEntered';
-         } else if (validator.isEmail(this.modelValue)) {
+         } else if (validator.validate(this.modelValue)) {
             this.status = 'EnteredAndValid';
          } else {
             this.status = 'EnteredButInvalid';
          }
          this.$emit('status', this.status);
+      },
+      async updateEmail(e) {
+         await this.$emit('update:modelValue', e.target.value);
+         this.updateStatus();
       },
    },
    computed: {

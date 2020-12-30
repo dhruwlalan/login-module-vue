@@ -1,22 +1,21 @@
 @use "../abstracts" as *;
-@use "../abstracts/placeholder" as *;
 
 .section {
-	@extend %white-bgc;
-	@include pbm( $p: 4rem , $rad: 1rem , );
-	box-shadow: 0 1rem 3rem rgb(0 0 0 / 25%);
+   @include bg($c: $background);
+   @include pbm($p: 4rem, $rad: 1rem);
+   box-shadow: 0 1rem 3rem rgb(0 0 0 / 25%);
 
-	@media (max-width: 550px) {
-		@include pbm( $p: 2rem , );
-	}
+   @media (max-width: 550px) {
+      @include pbm($p: 2rem);
+   }
 
-	@media (max-width: 450px) {
-		@include pbm( $p: 2rem 1rem , );
-	}
+   @media (max-width: 450px) {
+      @include pbm($p: 2rem 1rem);
+   }
 
-	&--edit {
-		@media (max-width: 450px) {
-			@include pbm( $p: 0 , $pt: 1rem , );
-		}
-	}
+   &--edit {
+      @media (max-width: 450px) {
+         @include pbm($p: 0, $pt: 1rem);
+      }
+   }
 }

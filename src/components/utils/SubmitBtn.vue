@@ -1,7 +1,7 @@
 <template>
-   <button class="btn btn__signup" type="submit">
+   <button class="btn">
       <slot v-if="notSubmited"></slot>
-      <span v-else-if="spinner" class="spinner" />
+      <span v-else-if="spinner" class="spinner-white" />
       <span v-else-if="success">&#10003;</span>
       <span v-else-if="error">&#10007;</span>
    </button>
@@ -9,13 +9,22 @@
 
 <script>
 export default {
-   props: ['btnStatus'],
+   props: {
+      btnStatus: {
+         type: String,
+         default: 'not-submitted',
+         required: true,
+         validator(value) {
+            return ['not-submitted', 'submitted', 'success', 'error'].indexOf(value) !== -1;
+         },
+      },
+   },
    computed: {
       notSubmited() {
-         return this.btnStatus === 'not-submited';
+         return this.btnStatus === 'not-submitted';
       },
       spinner() {
-         return this.btnStatus === 'submited';
+         return this.btnStatus === 'submitted';
       },
       success() {
          return this.btnStatus === 'success';

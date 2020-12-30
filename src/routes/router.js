@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { defineAsyncComponent } from 'vue';
+import { auth } from '../firebase';
 
-import Home from '../components/pages/Home.vue';
-import Edit from '../components/pages/Edit.vue';
-import LoginSignupForm from '../components/pages/LoginSignupForm.vue';
-import ForgetPassword from '../components/pages/ForgetPassword.vue';
-import AccountManagement from '../components/pages/AccountManagement.vue';
-import NotFound from '../components/pages/NotFound.vue';
+const Home = defineAsyncComponent(() => import('../components/pages/Home.vue'));
+const Edit = defineAsyncComponent(() => import('../components/pages/Edit.vue'));
+const LoginSignupForm = defineAsyncComponent(() =>
+   import('../components/pages/LoginSignupForm.vue'),
+);
+const ForgetPassword = defineAsyncComponent(() => import('../components/pages/ForgetPassword.vue'));
+const AccountManagement = defineAsyncComponent(() =>
+   import('../components/pages/AccountManagement.vue'),
+);
+const NotFound = defineAsyncComponent(() => import('../components/pages/NotFound.vue'));
 
 const Router = createRouter({
    history: createWebHistory(),
@@ -27,6 +33,7 @@ const Router = createRouter({
          name: 'edit',
          path: '/edit',
          component: Edit,
+         meta: { requiresAuth: true },
       },
       {
          name: 'login',
@@ -63,6 +70,24 @@ const Router = createRouter({
          props: true,
       },
    ],
+});
+
+Router.beforeEach((to, _from, next) => {
+   if (to.matched.some((record) => record.meta.isOpenRoute)) {
+      if (!auth.currentUser) {
+         next();
+      } else {
+         next({ name: 'home' });
+      }
+   } else if (to.matched.some((record) => record.meta.requiresAuth)) {
+      if (auth.currentUser) {
+         next();
+      } else {
+         next({ name: 'home' });
+      }
+   } else {
+      next();
+   }
 });
 
 export default Router;

@@ -2,16 +2,14 @@
    <not-logged-in v-if="!user"></not-logged-in>
    <template v-else>
       <teleport to="body">
-         <div v-show="viewProfilePhoto">
-            <div class="view-photo-backdrop" @click="closePhoto"></div>
-         </div>
+         <div class="view-photo-backdrop" @click="closePhoto" v-show="viewProfilePhoto"></div>
       </teleport>
       <the-navbar page="home"></the-navbar>
       <hori-pipes></hori-pipes>
       <div class="section">
          <h1 class="home__title">Welcome,</h1>
          <div class="home__profile">
-            <transition name="profile">
+            <transition enter-active-class="profile-zoom-in" leave-active-class="profile-zoom-out">
                <img class="view-photo" v-if="viewProfilePhoto" :src="user.photoURL" />
             </transition>
             <img class="home__profile--img" v-if="true" :src="user.photoURL" @click="viewPhoto" />
@@ -69,58 +67,6 @@ export default {
       closePhoto() {
          this.viewProfilePhoto = false;
       },
-      logout() {
-         this.$store.dispatch('logout');
-      },
    },
 };
 </script>
-
-<style scoped>
-.home__profile--img {
-   box-shadow: 0 0 0 2px rgb(0 49 255 / 25%);
-   cursor: pointer;
-}
-.home__profile--img:hover {
-   box-shadow: 0 0 0 3px rgb(0 49 255 / 25%);
-}
-.view-photo-backdrop {
-   position: fixed;
-   height: 100vh;
-   width: 100vw;
-   top: 0;
-   left: 0;
-}
-.view-photo {
-   position: absolute;
-   z-index: 99;
-   transform: translateY(58px);
-   border-radius: 50%;
-   height: 50rem;
-   width: 50rem;
-}
-@keyframes zoom-in {
-   from {
-      height: 5rem;
-      width: 5rem;
-      transform: translateX(-57.2px);
-      margin-right: 1rem;
-      border-radius: 50%;
-   }
-}
-@keyframes zoom-out {
-   to {
-      height: 5rem;
-      width: 5rem;
-      transform: translateX(-57.2px);
-      margin-right: 1rem;
-      border-radius: 50%;
-   }
-}
-.profile-enter-active {
-   animation: zoom-in 0.3s;
-}
-.profile-leave-active {
-   animation: zoom-out 0.3s;
-}
-</style>

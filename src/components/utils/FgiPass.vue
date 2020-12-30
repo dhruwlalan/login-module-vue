@@ -1,15 +1,14 @@
 <template>
    <div
-      class="form__group form__group--name"
+      class="form__group"
       :class="groupState"
       :style="groupStyle"
       @mouseenter="mouseEnter"
       @mouseleave="mouseLeave"
    >
       <input
-         class="form__group-input"
+         class="form__group-input form__group-input--pass"
          :id="`${name}Input`"
-         :class="passClass"
          :type="passwordVisibility"
          :value="modelValue"
          @focusin="focusin"
@@ -26,13 +25,13 @@
          {{ labelName }}
       </label>
       <pass-show
-         v-if="!showPassword"
+         v-if="showPassword"
          :class="{ showeyesvg: showEyeSvg }"
          :style="eyeSvgStyle"
          @click="tooglePassword"
       />
       <pass-hide
-         v-if="showPassword"
+         v-if="!showPassword"
          :class="{ showeyesvg: showEyeSvg }"
          :style="eyeSvgStyle"
          @click="tooglePassword"
@@ -81,10 +80,6 @@ export default {
       tooglePassword() {
          this.showPassword = !this.showPassword;
       },
-      async updatePass(e) {
-         await this.$emit('update:modelValue', e.target.value);
-         this.updateStatus();
-      },
       updateStatus() {
          if (this.modelValue.length === 0) {
             this.status = 'notEntered';
@@ -94,6 +89,10 @@ export default {
             this.status = 'EnteredButInvalid';
          }
          this.$emit('status', this.status);
+      },
+      async updatePass(e) {
+         await this.$emit('update:modelValue', e.target.value);
+         this.updateStatus();
       },
    },
    computed: {
@@ -134,11 +133,6 @@ export default {
             };
          }
          return null;
-      },
-      passClass() {
-         return {
-            'form__group-input--showpassword': this.showPassword,
-         };
       },
       eyeSvgStyle() {
          if (this.showPassword) {

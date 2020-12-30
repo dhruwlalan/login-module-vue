@@ -1,0 +1,12 @@
+@use "../abstracts" as *;
+
+.pnf {
+   @include typo($c: #721c24, $ff: $roboto, $fs: 3rem, $fw: 300, $ta: center);
+   &:not(:last-child) {
+      @include pbm($mb: 2rem);
+   }
+
+   &--errcode {
+      font-weight: 400;
+   }
+}

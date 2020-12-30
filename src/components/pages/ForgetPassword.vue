@@ -1,13 +1,15 @@
 <template>
-   <form class="form form--forget-password" autocomplete="off">
+   <form class="form form--fit" autocomplete="off">
       <div class="form__header">
-         <back-link name="login"></back-link>
+         <back-link to-route="login"></back-link>
          <h3 class="form__header--title">Forget Password?</h3>
          <h5 class="form__header--subtitle">Enter your email address to reset your password.</h5>
       </div>
       <div class="form__body">
          <fgi-email v-model="email" @status="getEmailStatus" />
-         <submit-btn :btnStatus="btnStatus" @click.prevent="submit">Send Reset Link</submit-btn>
+         <submit-btn :btnStatus="submitBtnStatus" @click.prevent="submit">
+            Send Reset Link
+         </submit-btn>
       </div>
    </form>
 </template>
@@ -27,7 +29,7 @@ export default {
       return {
          email: '',
          emailStatus: '',
-         btnStatus: 'not-submited',
+         submitBtnStatus: 'not-submitted',
       };
    },
    methods: {
@@ -40,26 +42,22 @@ export default {
          } else if (this.emailStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Please enter a valid email address.');
          } else {
-            this.btnStatus = 'submited';
-            this.$store
-               .dispatch('forgetPassword', {
-                  email: this.email,
-               })
-               .then((res) => {
-                  if (res === 'success') {
-                     this.btnStatus = 'success';
-                     this.showAlert('success', 'Link sent to email successfully!');
-                     setTimeout(() => {
-                        this.$router.push({ name: 'login' });
-                     }, 1000);
-                  } else {
-                     this.btnStatus = 'error';
-                     this.showAlert('error', res);
-                     setTimeout(() => {
-                        this.btnStatus = 'not-submited';
-                     }, 1000);
-                  }
-               });
+            this.submitBtnStatus = 'submitted';
+            this.$store.dispatch('forgetPassword', this.email).then((res) => {
+               if (res === 'success') {
+                  this.showAlert('success', 'Link sent to email successfully!');
+                  this.submitBtnStatus = 'success';
+                  setTimeout(() => {
+                     this.$router.push({ name: 'login' });
+                  }, 1000);
+               } else {
+                  this.showAlert('error', res);
+                  this.submitBtnStatus = 'error';
+                  setTimeout(() => {
+                     this.submitBtnStatus = 'not-submitted';
+                  }, 1000);
+               }
+            });
          }
       },
       showAlert(type, msg) {

@@ -1,14 +1,13 @@
-@use "../../abstracts" as *;
-@use "../../abstracts/placeholder" as *;
+@use "../abstracts" as *;
 
 .btn {
    @include size($h: 5rem, $w: 100%);
-   @extend %blue-bgc;
+   @include bg($c: $pri-blue);
    @include typo($c: $white, $ff: $roboto, $fs: 2rem, $fw: 300);
-   @include pbm($rad: 10px, $b: none, $mb: 1rem);
-   @extend %flex-center;
-   @extend %disable-selection;
-   @extend %cur-out;
+   @include pbm($rad: 10px, $b: none);
+   @include flex($jc: center, $ai: center);
+   outline: none;
+   cursor: pointer;
 
    &:hover {
       @include bg($c: $hov-blue);
@@ -18,9 +17,5 @@
    }
    &:focus {
       box-shadow: 0 0 0 4px $foc-blue;
-   }
-
-   &__login {
-      @include pbm($mb: 1.5rem);
    }
 }
