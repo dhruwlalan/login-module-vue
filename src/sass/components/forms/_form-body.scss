@@ -67,7 +67,7 @@
       }
       &--links {
          @include size($h: 70%);
-         @include flex($fd: column, $jc: space-between, $ai: start);
+         @include flex($fd: column, $jc: space-between, $ai: flex-start);
 
          @media (max-width: 450px) {
             justify-content: space-evenly;
@@ -77,7 +77,7 @@
       &--remove {
          @include size($h: 4rem);
          @include typo($c: $pri-blue, $ff: $roboto, $fs: 2rem, $fw: 300);
-         @include flex($jc: start, $ai: center);
+         @include flex($jc: flex-start, $ai: center);
          @include pos-relative();
          outline: none;
          cursor: pointer;
