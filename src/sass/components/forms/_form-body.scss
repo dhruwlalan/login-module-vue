@@ -3,19 +3,19 @@
 .form__body {
    @include flex-item($grow: 1);
    @include pbm($p: 2rem);
-}
 
-.form__forget-password {
-   @include typo($c: $sec-blue, $ff: $roboto, $fs: 1.6rem, $fw: 300, $td: none);
-   @include pbm($mt: 1rem);
-   @include pos-absolute;
-   @include disable-selection;
-   outline: none;
-   cursor: pointer;
+   &--forget-password {
+      @include typo($c: $sec-blue, $ff: $roboto, $fs: 1.6rem, $fw: 300, $td: none);
+      @include pbm($mt: 1rem);
+      @include pos-absolute;
+      @include disable-selection;
+      outline: none;
+      cursor: pointer;
 
-   &:hover,
-   &:focus {
-      border-bottom: 2px solid $sec-foc-blue;
+      &:hover,
+      &:focus {
+         border-bottom: 2px solid $sec-foc-blue;
+      }
    }
 }
 

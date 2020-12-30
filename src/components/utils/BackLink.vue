@@ -1,5 +1,5 @@
 <template>
-   <router-link :to="{ name: name }" tabindex="-1"
+   <router-link :to="{ name: toRoute }" tabindex="-1"
       ><svg
          class="form__header--back"
          xmlns="http://www.w3.org/2000/svg"
@@ -22,6 +22,11 @@
 
 <script>
 export default {
-   props: ['name'],
+   props: {
+      toRoute: {
+         type: String,
+         required: true,
+      },
+   },
 };
 </script>

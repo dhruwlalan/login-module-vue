@@ -1,19 +1,23 @@
 <template>
    <form class="form" autocomplete="off">
       <div class="form__header">
-         <back-link name="home"></back-link>
+         <back-link to-route="home"></back-link>
          <h3 class="form__header--title" v-if="isSignup">Sign Up</h3>
          <h3 class="form__header--title" v-else>Login</h3>
       </div>
       <div class="form__body">
          <fgi-name v-model="fullName" @status="getFullNameStatus" v-if="isSignup" />
          <fgi-email v-model="email" @status="getEmailStatus" />
-         <fgi-pass name="pass" v-model="password" @status="getPasswordStatus" />
-         <submit-btn :btnStatus="btnStatus" @click.prevent="submit" v-if="isSignup">
+         <fgi-pass name="pass" v-model="pass" @status="getPassStatus" />
+         <submit-btn :btnStatus="submitBtnStatus" @click.prevent="submit" v-if="isSignup">
             Creat Account
          </submit-btn>
-         <submit-btn :btnStatus="btnStatus" @click.prevent="submit" v-else>Login</submit-btn>
-         <router-link :to="{ name: 'forgetPassword' }" class="form__forget-password" v-if="isLogin">
+         <submit-btn :btnStatus="submitBtnStatus" @click.prevent="submit" v-else>Login</submit-btn>
+         <router-link
+            :to="{ name: 'forgetPassword' }"
+            class="form__body--forget-password"
+            v-if="isLogin"
+         >
             Forget your password?
          </router-link>
       </div>
@@ -50,11 +54,11 @@ export default {
       return {
          fullName: '',
          email: '',
-         password: '',
+         pass: '',
          fullNameStatus: '',
          emailStatus: '',
-         passwordStatus: '',
-         btnStatus: 'not-submited',
+         passStatus: '',
+         submitBtnStatus: 'not-submitted',
       };
    },
    methods: {
@@ -64,28 +68,29 @@ export default {
       getEmailStatus(status) {
          this.emailStatus = status;
       },
-      getPasswordStatus(status) {
-         this.passwordStatus = status;
+      getPassStatus(status) {
+         this.passStatus = status;
       },
+
       signup() {
          this.$store
             .dispatch('signup', {
                fullName: this.fullName,
                email: this.email,
-               password: this.password,
+               pass: this.pass,
             })
             .then((res) => {
                if (res === 'success') {
-                  this.btnStatus = 'success';
                   this.showAlert('success', 'User Created Successfully!');
+                  this.submitBtnStatus = 'success';
                   setTimeout(() => {
                      this.$router.push({ name: 'home' });
                   }, 1000);
                } else {
-                  this.btnStatus = 'error';
+                  this.submitBtnStatus = 'error';
                   this.showAlert('error', res);
                   setTimeout(() => {
-                     this.btnStatus = 'not-submited';
+                     this.submitBtnStatus = 'not-submitted';
                   }, 1000);
                }
             });
@@ -94,24 +99,25 @@ export default {
          this.$store
             .dispatch('login', {
                email: this.email,
-               password: this.password,
+               pass: this.pass,
             })
             .then((res) => {
                if (res === 'success') {
-                  this.btnStatus = 'success';
                   this.showAlert('success', 'User Logged In Successfully!');
+                  this.submitBtnStatus = 'success';
                   setTimeout(() => {
                      this.$router.push({ name: 'home' });
                   }, 1000);
                } else {
-                  this.btnStatus = 'error';
                   this.showAlert('error', res);
+                  this.submitBtnStatus = 'error';
                   setTimeout(() => {
-                     this.btnStatus = 'not-submited';
+                     this.submitBtnStatus = 'not-submitted';
                   }, 1000);
                }
             });
       },
+
       submit() {
          if (this.isSignup) {
             if (this.fullNameStatus === 'notEntered') {
@@ -127,7 +133,7 @@ export default {
          } else if (this.passwordStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Password should be at least 8 characters long.');
          } else {
-            this.btnStatus = 'submited';
+            this.submitBtnStatus = 'submitted';
             if (this.isSignup) {
                this.signup();
             } else {
@@ -135,19 +141,17 @@ export default {
             }
          }
       },
+
       showAlert(type, msg) {
          this.$store.dispatch('showAlert', { type, msg });
       },
    },
    computed: {
-      formType() {
-         return this.$route.name;
-      },
       isSignup() {
-         return this.formType === 'signup';
+         return this.$route.name === 'signup';
       },
       isLogin() {
-         return this.formType === 'login';
+         return this.$route.name === 'login';
       },
    },
 };

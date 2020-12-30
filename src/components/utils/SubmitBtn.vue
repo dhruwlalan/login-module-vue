@@ -9,13 +9,22 @@
 
 <script>
 export default {
-   props: ['btnStatus'],
+   props: {
+      btnStatus: {
+         type: String,
+         default: 'not-submitted',
+         required: true,
+         validator(value) {
+            return ['not-submitted', 'submitted', 'success', 'error'].indexOf(value) !== -1;
+         },
+      },
+   },
    computed: {
       notSubmited() {
-         return this.btnStatus === 'not-submited';
+         return this.btnStatus === 'not-submitted';
       },
       spinner() {
-         return this.btnStatus === 'submited';
+         return this.btnStatus === 'submitted';
       },
       success() {
          return this.btnStatus === 'success';

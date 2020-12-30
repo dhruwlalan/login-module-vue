@@ -54,10 +54,6 @@ export default {
       mouseLeave() {
          this.shouldHover = false;
       },
-      async updateFullName(e) {
-         await this.$emit('update:modelValue', e.target.value);
-         this.updateStatus();
-      },
       updateStatus() {
          if (this.modelValue.length === 0) {
             this.status = 'notEntered';
@@ -65,6 +61,10 @@ export default {
             this.status = 'EnteredAndValid';
          }
          this.$emit('status', this.status);
+      },
+      async updateFullName(e) {
+         await this.$emit('update:modelValue', e.target.value);
+         this.updateStatus();
       },
    },
    computed: {

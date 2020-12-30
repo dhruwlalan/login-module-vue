@@ -1,4 +1,4 @@
-@use "../../abstracts" as *;
+@use "../abstracts" as *;
 
 .btn {
    @include size($h: 5rem, $w: 100%);

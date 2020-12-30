@@ -43,16 +43,16 @@ const Store = createStore({
       },
       alert(state) {
          return {
-            alert: state.alert.showAlert,
+            showAlert: state.alert.showAlert,
             type: state.alert.type,
             msg: state.alert.msg,
          };
       },
    },
    actions: {
-      async signup(context, { fullName, email, password }) {
+      async signup(context, { fullName, email, pass }) {
          try {
-            const { user } = await auth.createUserWithEmailAndPassword(email, password);
+            const { user } = await auth.createUserWithEmailAndPassword(email, pass);
             await user.updateProfile({
                displayName: fullName,
                photoURL: context.getters.defaultPhotoURL,
@@ -66,9 +66,9 @@ const Store = createStore({
             return error.message;
          }
       },
-      async login(context, { email, password }) {
+      async login(context, { email, pass }) {
          try {
-            await auth.signInWithEmailAndPassword(email, password);
+            await auth.signInWithEmailAndPassword(email, pass);
             context.commit('storeUser');
             return 'success';
          } catch (error) {
@@ -99,28 +99,28 @@ const Store = createStore({
             return 'InvalidActionCode';
          }
       },
-      async confirmPasswordReset(_context, { actionCode, newPassword }) {
+      async confirmPasswordReset(_context, { actionCode, newPass }) {
          try {
-            await auth.confirmPasswordReset(actionCode, newPassword);
+            await auth.confirmPasswordReset(actionCode, newPass);
             return 'success';
          } catch (error) {
             return 'Something went wrong!';
          }
       },
 
-      async _reAuthenticateUser(_context, password) {
+      async _reAuthenticateUser(_context, pass) {
          try {
             const user = auth.currentUser;
-            const credentials = fb.auth.EmailAuthProvider.credential(user.email, password);
+            const credentials = fb.auth.EmailAuthProvider.credential(user.email, pass);
             await user.reauthenticateWithCredential(credentials);
             return 'success';
          } catch (error) {
             return error.code;
          }
       },
-      async updateEmail(context, { newEmail, password }) {
+      async updateEmail(context, { newEmail, pass }) {
          const user = auth.currentUser;
-         const res = await context.dispatch('_reAuthenticateUser', password);
+         const res = await context.dispatch('_reAuthenticateUser', pass);
          if (res === 'success') {
             try {
                await user.updateEmail(newEmail);

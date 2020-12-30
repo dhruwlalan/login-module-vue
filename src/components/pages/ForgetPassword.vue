@@ -1,7 +1,7 @@
 <template>
    <form class="form form--fit" autocomplete="off">
       <div class="form__header">
-         <back-link name="login"></back-link>
+         <back-link to-route="login"></back-link>
          <h3 class="form__header--title">Forget Password?</h3>
          <h5 class="form__header--subtitle">Enter your email address to reset your password.</h5>
       </div>

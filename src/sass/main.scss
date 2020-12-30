@@ -7,12 +7,12 @@
 @use "components/spinner";
 @use "components/pipes";
 @use "components/cropper";
+@use "components/btns";
 //#COMPONENTS/FORMS#//
 @use "components/forms/form";
 @use "components/forms/form-header";
 @use "components/forms/form-body";
 @use "components/forms/form-footer";
-@use "components/forms/form-btns";
 @use "components/forms/form-utils";
 ///LAYOUT///
 @use "layout/container";
