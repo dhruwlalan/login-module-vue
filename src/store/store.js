@@ -72,8 +72,8 @@ const Store = createStore({
             context.commit('storeUser');
             return 'success';
          } catch (error) {
-            if (error.code === 'auth/user-not-found') {
-               return 'User not found!';
+            if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+               return 'Invalid email or password!';
             }
             return error.message;
          }

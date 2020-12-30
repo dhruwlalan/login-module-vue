@@ -12,9 +12,33 @@
       transform: translateX(-50%) translateY(-100px);
    }
 }
-
 @keyframes slideOutUp {
    to {
       transform: translateX(-50%) translateY(-100px);
    }
+}
+
+@keyframes zoom-in {
+   from {
+      height: 5rem;
+      width: 5rem;
+      transform: translateX(-57.2px);
+      margin-right: 1rem;
+      border-radius: 50%;
+   }
+}
+@keyframes zoom-out {
+   to {
+      height: 5rem;
+      width: 5rem;
+      transform: translateX(-57.2px);
+      margin-right: 1rem;
+      border-radius: 50%;
+   }
+}
+.profile-zoom-in {
+   animation: zoom-in 0.3s;
+}
+.profile-zoom-out {
+   animation: zoom-out 0.3s;
 }
