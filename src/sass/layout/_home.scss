@@ -29,7 +29,7 @@
 
       &__heading {
          @include size($h: 100%, $w: 100%);
-         @include bg($c: $background);
+         @include bg($c: $pri-blue);
          @include typo($c: $white, $fw: 500);
          @include pbm($rad: 2rem, $pr: 1rem);
          @include flex($jc: center, $ai: center);
@@ -76,16 +76,16 @@
 }
 
 .view-photo {
-   @include size($h: 50rem, $w: 50rem);
+   @include size($h: 5rem, $w: 5rem);
    @include pbm($rad: 50%);
    @include pos-absolute($z: 99);
-   transform: translateY(58px);
+   transform: translate3d(0, 58px, 0) scale3d(10, 10, 10);
 
    @media (max-width: 550px) {
-      @include size($h: 80vw, $w: 80vw);
+      transform: translate3d(0, 58px, 0) scale3d(8, 8, 8);
    }
    @media (max-width: 450px) {
-      @include size($h: 90vw, $w: 90vw);
+      transform: translate3d(0, 58px, 0) scale3d(6.8, 6.8, 6.8);
    }
 
    &-backdrop {

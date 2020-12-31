@@ -26,20 +26,12 @@
 
 @keyframes zoom-in {
    from {
-      height: 5rem;
-      width: 5rem;
-      transform: translateX(-57.2px);
-      margin-right: 1rem;
-      border-radius: 50%;
+      transform: translate3d(-62px, 0, 0) scale3d(1, 1, 1);
    }
 }
 @keyframes zoom-out {
    to {
-      height: 5rem;
-      width: 5rem;
-      transform: translateX(-57.2px);
-      margin-right: 1rem;
-      border-radius: 50%;
+      transform: translate3d(-62px, 0, 0) scale3d(1, 1, 1);
    }
 }
 .profile-zoom-in {
