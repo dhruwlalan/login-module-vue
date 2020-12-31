@@ -25,17 +25,22 @@
    --success-bc: #9bf2b0;
 }
 
+html {
+   min-height: -webkit-fill-available;
+}
+
 body {
-   @include size($minh: 100vh, $w: 100vw);
+   @include size($minh: -webkit-fill-available, $w: 100vw);
    @include pbm($p: 2rem);
    @include pos-relative();
    background: linear-gradient(170deg, #0070ff 50%, #00ffe0 90%);
    overflow-x: hidden;
+   background-repeat: no-repeat;
+   background-size: 100vw 100%;
    -webkit-tap-highlight-color: transparent;
    tap-highlight-color: transparent;
 
    @media (max-width: 450px) {
-      @include size($h: -webkit-fill-available);
       @include pbm($p: 1rem);
    }
 
