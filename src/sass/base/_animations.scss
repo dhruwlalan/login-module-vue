@@ -9,19 +9,19 @@
 
 @keyframes slideInDown {
    from {
-      transform: translateX(-50%) translateY(-100px);
+      transform: translate3d(-50%, -100px, 0);
    }
 }
 @keyframes slideOutUp {
    to {
-      transform: translateX(-50%) translateY(-100px);
+      transform: translate3d(-50%, -100px, 0);
    }
 }
 .slideInDown {
-   animation: slideInDown 0.5s;
+   animation: slideInDown 0.4s ease-out;
 }
 .slideOutUp {
-   animation: slideOutUp 0.5s;
+   animation: slideOutUp 0.3s;
 }
 
 @keyframes zoom-in {

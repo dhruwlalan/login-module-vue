@@ -18,10 +18,7 @@
          </div>
          <div class="ic__footer" @click="cropImage">
             <span v-if="notCropped">crop</span>
-            <template v-else-if="cropping">
-               <span class="spinner-green" />
-               <span class="cropping-text">cropping</span>
-            </template>
+            <span v-else-if="cropping">cropping</span>
             <span v-else-if="cropped">&#10003;</span>
          </div>
       </div>
@@ -68,7 +65,7 @@ export default {
             guides: false,
             highlight: false,
             center: true,
-            autoCropArea: 0.8,
+            autoCropArea: 1,
             movable: false,
             rotatable: false,
             scalable: false,
@@ -98,7 +95,7 @@ export default {
                   this.cropStatus = 'cropped';
                   setTimeout(() => {
                      this.closeModal();
-                  }, 500);
+                  }, 200);
                }, 500);
             },
             'image/jpeg',

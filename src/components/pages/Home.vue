@@ -23,7 +23,7 @@
                <div class="home__details__heading">Your Details:</div>
             </div>
             <div class="home__details__row">
-               <div class="home__details--key">Full Name</div>
+               <div class="home__details--key">Name</div>
                <div class="home__details--value">{{ user.displayName }}</div>
             </div>
             <div class="home__details__row">
