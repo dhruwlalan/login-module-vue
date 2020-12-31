@@ -9,6 +9,10 @@
       @include size($minh: 4rem, $w: 100%);
       @include typo($c: $pri-blue, $ff: $roboto, $fs: 3rem, $fw: 600, $ta: center);
       @include pbm($mt: 2rem, $p: 0 7rem);
+
+      &--reset {
+         padding: 0 1rem !important;
+      }
    }
    &--subtitle {
       @include typo($c: $sec-blue, $ff: $roboto, $fs: 1.6rem, $fw: 400, $ta: center);

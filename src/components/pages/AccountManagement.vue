@@ -16,7 +16,7 @@
    </form>
    <form class="form form--fit" autocomplete="off" v-if="!isInvalidCode && showForm">
       <div class="form__header">
-         <h3 class="form__header--title">Reset Password</h3>
+         <h3 class="form__header--title form__header--title--reset">Reset Password</h3>
          <h5 class="form__header--subtitle">{{ accountEmail }}</h5>
       </div>
       <div class="form__body">
