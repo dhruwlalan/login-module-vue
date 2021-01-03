@@ -50,8 +50,10 @@
       "vite": "^1.0.0-rc.13",
       "vue-loader": "^16.0.0-beta.4",
       "webpack": "^4.44.2",
+      "webpack-bundle-analyzer": "^4.3.0",
       "webpack-cli": "^3.3.12",
-      "webpack-dev-server": "^3.11.0"
+      "webpack-dev-server": "^3.11.0",
+      "webpackbar": "^5.0.0-3"
    },
    "browserslist": [
       "defaults",

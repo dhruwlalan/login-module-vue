@@ -70,6 +70,21 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      outline: none;
+
+      @media (max-width: 450px) {
+         &:hover {
+            background-color: #6ef08e;
+         }
+      }
+      @media (min-width: 450px) {
+         &:hover {
+            background-color: #6ef08e;
+         }
+         &:active {
+            background-color: var(--success-bc);
+         }
+      }
    }
 }
 

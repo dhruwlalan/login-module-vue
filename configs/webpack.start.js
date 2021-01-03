@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const WebpackBar = require('webpackbar');
 
 module.exports = {
    mode: 'development',
@@ -12,16 +13,17 @@ module.exports = {
       path: path.resolve(__dirname, '../dist'),
    },
    stats: {
-      assets: false,
-      modules: false,
-      builtAt: false,
-      version: false,
-      timings: false,
-      entrypoints: false,
-      colors: true,
-      hash: false,
       warnings: true,
       errors: true,
+      colors: true,
+      assets: false,
+      builtAt: false,
+      modules: false,
+      performance: false,
+      timings: false,
+      version: false,
+      entrypoints: false,
+      hash: false,
    },
    devServer: {
       contentBase: '../dist',
@@ -30,6 +32,7 @@ module.exports = {
       inline: true,
       hot: true,
       port: 8000,
+      quiet: true,
       clientLogLevel: 'silent',
    },
    plugins: [
@@ -41,6 +44,9 @@ module.exports = {
          filename: 'index.html',
          template: path.resolve(__dirname, '../src', 'index.html'),
          chunks: ['index'],
+      }),
+      new WebpackBar({
+         basic: false,
       }),
       new VueLoaderPlugin(),
    ],
@@ -55,12 +61,6 @@ module.exports = {
                enforce: true,
             },
          },
-      },
-   },
-   resolve: {
-      extensions: ['.ts', '.js', '.vue', '.json'],
-      alias: {
-         vue: '@vue/runtime-dom',
       },
    },
    module: {

@@ -1,11 +1,12 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const WebpackBar = require('webpackbar');
 
 module.exports = {
    mode: 'production',
@@ -25,6 +26,7 @@ module.exports = {
       hash: false,
       warnings: true,
       errors: true,
+      children: false,
    },
    plugins: [
       new HtmlWebpackPlugin({
@@ -35,6 +37,8 @@ module.exports = {
       new MiniCssExtractPlugin({ filename: 'style.[contentHash].css' }),
       new CleanWebpackPlugin(),
       new VueLoaderPlugin(),
+      new WebpackBar(),
+      new BundleAnalyzerPlugin(),
    ],
    optimization: {
       minimizer: [new OptimizeCssAssetsPlugin(), new TerserPlugin()],
@@ -49,11 +53,8 @@ module.exports = {
          },
       },
    },
-   resolve: {
-      extensions: ['.ts', '.js', '.vue', '.json'],
-      alias: {
-         vue: '@vue/runtime-dom',
-      },
+   performance: {
+      hints: false,
    },
    module: {
       rules: [
