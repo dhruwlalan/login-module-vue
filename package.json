@@ -7,7 +7,8 @@
    "license": "MIT",
    "scripts": {
       "start": "webpack-dev-server --config configs/webpack.start.js",
-      "prod": "webpack --config configs/webpack.prod.js"
+      "prod": "webpack --config configs/webpack.prod.js",
+      "vite": "vite"
    },
    "dependencies": {
       "cropperjs": "^1.5.9",
@@ -46,6 +47,7 @@
       "sass": "^1.30.0",
       "sass-loader": "^10.1.0",
       "style-loader": "^2.0.0",
+      "vite": "^1.0.0-rc.13",
       "vue-loader": "^16.0.0-beta.4",
       "webpack": "^4.44.2",
       "webpack-cli": "^3.3.12",

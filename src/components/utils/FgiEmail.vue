@@ -28,7 +28,7 @@
 </template>
 
 <script>
-const validator = require('email-validator');
+import validator from 'email-validator';
 
 export default {
    props: ['modelValue'],
