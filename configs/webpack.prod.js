@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -33,6 +34,10 @@ module.exports = {
          filename: 'index.html',
          template: path.resolve(__dirname, '../src', 'index.html'),
          chunks: ['index'],
+      }),
+      new webpack.DefinePlugin({
+         __VUE_OPTIONS_API__: true,
+         __VUE_PROD_DEVTOOLS__: false,
       }),
       new MiniCssExtractPlugin({ filename: 'style.[contentHash].css' }),
       new CleanWebpackPlugin(),

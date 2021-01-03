@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-const WebpackBar = require('webpackbar');
 
 module.exports = {
    mode: 'development',
@@ -32,7 +31,6 @@ module.exports = {
       inline: true,
       hot: true,
       port: 8000,
-      quiet: true,
       clientLogLevel: 'silent',
    },
    plugins: [
@@ -44,9 +42,6 @@ module.exports = {
          filename: 'index.html',
          template: path.resolve(__dirname, '../src', 'index.html'),
          chunks: ['index'],
-      }),
-      new WebpackBar({
-         basic: false,
       }),
       new VueLoaderPlugin(),
    ],
