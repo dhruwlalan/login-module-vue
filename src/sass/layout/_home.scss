@@ -7,10 +7,17 @@
       @include disable-selection;
    }
    &__profile {
-      @include flex($jc: center, $ai: center);
-      @include disable-selection;
+      @include size($h: 5rem, $w: 5rem);
+      @include pbm($m: 0 auto, $mb: 1rem);
+      @include pos-relative;
 
-      &--img {
+      &--backdrop {
+         @include size($h: -webkit-fill-available, $w: 100vw);
+         @include size($h: stretch);
+         @include pos-fixed($t: 0, $l: 0);
+      }
+
+      &--photo {
          @include size($h: 5rem, $w: 5rem);
          @include pbm($mr: 1rem, $rad: 50%);
          box-shadow: 0 0 0 2px rgb(0 49 255 / 25%);
@@ -20,8 +27,20 @@
             box-shadow: 0 0 0 3px rgb(0 49 255 / 25%);
          }
       }
-      &--name {
-         @include typo($c: $pri-blue, $ff: $roboto, $fs: 4rem, $fw: 400, $ta: center);
+
+      &--view-photo {
+         @include size($h: 5rem, $w: 5rem);
+         @include pbm($rad: 50%);
+         position: absolute;
+         z-index: 90;
+         transform: translate3d(0, 7rem, 0) scale3d(10, 10, 10);
+
+         @media (max-width: 550px) {
+            transform: translate3d(0, 7rem, 0) scale3d(8, 8, 8);
+         }
+         @media (max-width: 450px) {
+            transform: translate3d(0, 7rem, 0) scale3d(6.8, 6.8, 6.8);
+         }
       }
    }
    &__details {
@@ -75,25 +94,5 @@
             overflow-x: scroll;
          }
       }
-   }
-}
-
-.view-photo {
-   @include size($h: 5rem, $w: 5rem);
-   @include pbm($rad: 50%);
-   @include pos-absolute($z: 99);
-   transform: translate3d(0, 58px, 0) scale3d(10, 10, 10);
-
-   @media (max-width: 550px) {
-      transform: translate3d(0, 58px, 0) scale3d(8, 8, 8);
-   }
-   @media (max-width: 450px) {
-      transform: translate3d(0, 58px, 0) scale3d(6.8, 6.8, 6.8);
-   }
-
-   &-backdrop {
-      @include size($h: -webkit-fill-available, $w: 100vw);
-      @include size($h: stretch);
-      @include pos-fixed($t: 0, $l: 0);
    }
 }

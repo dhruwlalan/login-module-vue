@@ -2,18 +2,21 @@
    <not-logged-in v-if="!user"></not-logged-in>
    <template v-else>
       <teleport to="body">
-         <div class="view-photo-backdrop" @click="closePhoto" v-show="viewProfilePhoto"></div>
+         <div class="home__profile--backdrop" @click="closePhoto" v-show="viewProfilePhoto"></div>
       </teleport>
       <the-navbar page="home"></the-navbar>
       <hori-pipes></hori-pipes>
       <div class="section">
-         <h1 class="home__title">Welcome,</h1>
-         <div class="home__profile">
+         <h1 class="home__title">Welcome!</h1>
+         <div class="home__profile" @click="viewPhoto">
             <transition enter-active-class="profile-zoom-in" leave-active-class="profile-zoom-out">
-               <img class="view-photo" v-if="viewProfilePhoto" :src="user.photoURL" />
+               <img
+                  class="home__profile--view-photo"
+                  v-if="viewProfilePhoto"
+                  :src="user.photoURL"
+               />
             </transition>
-            <img class="home__profile--img" v-if="true" :src="user.photoURL" @click="viewPhoto" />
-            <span class="home__profile--name">{{ nameCapitalized }}</span>
+            <img class="home__profile--photo" v-if="true" :src="user.photoURL" />
          </div>
       </div>
       <hori-pipes></hori-pipes>
@@ -54,11 +57,6 @@ export default {
    },
    computed: {
       ...mapGetters(['user']),
-      nameCapitalized() {
-         let name = this.user.displayName;
-         name = name.split(' ')[0];
-         return name.charAt(0).toUpperCase() + name.slice(1);
-      },
    },
    methods: {
       viewPhoto() {
