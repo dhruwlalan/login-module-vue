@@ -15,7 +15,7 @@
       "email-validator": "^2.0.4",
       "firebase": "^8.2.1",
       "vue": "^3.0.4",
-      "vue-router": "^4.0.1",
+      "vue-router": "^4.0.3",
       "vuex": "^4.0.0-rc.2"
    },
    "devDependencies": {
