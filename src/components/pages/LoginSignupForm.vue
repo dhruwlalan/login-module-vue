@@ -128,9 +128,9 @@ export default {
             this.showAlert('error', 'Please enter your email address.');
          } else if (this.emailStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Please enter a valid email address.');
-         } else if (this.passwordStatus === 'notEntered') {
+         } else if (this.passStatus === 'notEntered') {
             this.showAlert('error', 'Please enter your password.');
-         } else if (this.passwordStatus === 'EnteredButInvalid') {
+         } else if (this.passStatus === 'EnteredButInvalid') {
             this.showAlert('error', 'Password should be at least 8 characters long.');
          } else {
             this.submitBtnStatus = 'submitted';
